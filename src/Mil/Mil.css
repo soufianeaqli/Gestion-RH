@@ -1,0 +1,111 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://www.antipixel.com/wp-content/uploads/2022/06/visuel-6-tableaux-de-bord-essentiels-pour-la-gestion-des-ressources-humaines.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.table-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    max-width: 95%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+thead {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+th {
+    padding: 12px;
+    color: rgb(17, 218, 218);
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+tbody {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    color: white;
+}
+
+/* Style pour les statuts avec des couleurs */
+.status-termine {
+    color: rgb(34, 197, 94); /* Vert */
+    font-weight: bold;
+}
+
+.status-en-attente {
+    color: rgb(245, 158, 11); /* Orange */
+    font-weight: bold;
+}
+
+.status-non-termine {
+    color: rgb(239, 68, 68); /* Rouge */
+    font-weight: bold;
+}
+
+button {
+    background-color: rgb(17, 218, 218);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgb(240, 0, 0);
+}
+
+button:focus {
+    outline: none;
+}
