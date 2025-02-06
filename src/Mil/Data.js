@@ -11,26 +11,47 @@ export const employers = [
     { id: 10, name: "Karim", position: "Analyste", department: "Business Intelligence" },
     { id: 11, name: "Sami", position: "Technicien", department: "Support Technique" },
 ];
-export const performance = [
-    { id: 1, name: "Ahmed", period: "Janvier 2025", note: "Très bien", status: "Terminé" },
-    { id: 2, name: "Fatima", period: "Décembre 2024", note: "Bien", status: "Non terminé" },
-    { id: 3, name: "Ali", period: "Novembre 2024", note: "Moyenne", status: "En attente" },
-    { id: 4, name: "Yassine", period: "Octobre 2024", note: "Très bien", status: "Terminé" },
-    { id: 5, name: "Salma", period: "Septembre 2024", note: "Bien", status: "Terminé" },
-    { id: 6, name: "Hassan", period: "Août 2024", note: "Moyenne", status: "En attente" },
-    { id: 7, name: "Nadia", period: "Juillet 2024", note: "Très bien", status: "Terminé" },
-    { id: 8, name: "Omar", period: "Juin 2024", note: "Bien", status: "Non terminé" },
-    { id: 9, name: "Lina", period: "Mai 2024", note: "Très bien", status: "Terminé" },
-    { id: 10, name: "Karim", period: "Avril 2024", note: "Bien", status: "En attente" },
-    { id: 11, name: "Sami", period: "Mars 2024", note: "Moyenne", status: "Non terminé" }
-  ];
 export const leaves = [
     { id: 1, employee: "Ahmed", type: "Maladie", startDate: "2025-02-01", endDate: "2025-02-05", status: "Approuvé" },
     { id: 2, employee: "Fatima", type: "Congé annuel", startDate: "2025-02-10", endDate: "2025-02-15", status: "En attente" },
     { id: 3, employee: "Ali", type: "Maladie", startDate: "2025-01-20", endDate: "2025-01-25", status: "Rejeté" },
     { id: 4, employee: "Yassine", type: "Congé parental", startDate: "2025-03-01", endDate: "2025-03-10", status: "Approuvé" },
     { id: 5, employee: "Salma", type: "Congé annuel", startDate: "2025-04-05", endDate: "2025-04-15", status: "En attente" },
-    { id: 6, employee: "Hassan", type: "Maladie", startDate: "2025-02-20", endDate: "2025-02-25", status: "Approuvé" }]
+    { id: 6, employee: "Hassan", type: "Maladie", startDate: "2025-02-20", endDate: "2025-02-25", status: "Approuvé" }];
+    export const Recrute = [
+      {
+        id: 1,
+        title: "Développeur Frontend",
+        description: "Créer des interfaces modernes et dynamiques avec React.js, HTML, CSS et JavaScript. Expérience avec les API REST requise."
+      },
+      {
+        id: 2,
+        title: "Développeur Backend",
+        description: "Construire des systèmes robustes avec Node.js, Express et des bases de données relationnelles. Connaissance des microservices appréciée."
+      },
+      {
+        id: 3,
+        title: "Designer UI/UX",
+        description: "Concevoir des interfaces intuitives et esthétiques en utilisant des outils comme Figma et Adobe XD, en collaboration avec les développeurs."
+      },
+      {
+        id: 4,
+        title: "Chef de Projet Agile",
+        description: "Coordonner les équipes avec la méthodologie Scrum. Planification des sprints et suivi des objectifs. Certification Scrum Master préférée."
+      },
+      {
+        id: 5,
+        title: "Responsable Marketing Digital",
+        description: "Gérer la stratégie de marketing en ligne avec SEO, réseaux sociaux et publicité payante. Expérience en campagnes publicitaires requise."
+      },
+      {
+        id: 6,
+        title: "Community Manager",
+        description: "Gérer la présence en ligne, créer du contenu engageant sur les réseaux sociaux et interagir avec la communauté."
+      }
+    ];
+    
+
 
 
 

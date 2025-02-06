@@ -45,12 +45,12 @@ table {
 }
 
 thead {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 166, 255, 0.8);
 }
 
 th {
     padding: 12px;
-    color: rgb(17, 218, 218);
+    color: rgb(255, 255, 255);
     font-size: 1.1rem;
     text-align: center;
 }
@@ -485,6 +485,66 @@ th:nth-child(5), td:nth-child(5) {
 .btn-edit:hover {
   background-color: #218838; /* Bleu plus foncé au survol */
 }
+.btn-ajt {
+  background-color: #4CAF50; /* Couleur verte pour attirer l'attention */
+  color: white;
+  padding: 12px 20px; /* Taille confortable du bouton */
+  font-size: 1rem; /* Taille de texte adaptée */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transition douce */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre pour effet visuel */
+  display: inline-block;
+  margin: 10px 0; /* Un peu d'espace autour du bouton */
+}
+
+.btn-ajt:hover {
+  background-color: #45a049; /* Vert légèrement plus foncé au survol */
+  transform: scale(1.05); /* Légère agrandissement au survol */
+}
+
+.btn-ajt:active {
+  background-color: #3e8e41; /* Vert encore plus foncé au clic */
+  transform: scale(1); /* Retour à la taille normale après le clic */
+}
+
+.btn-ajt:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.6); /* Ombre bleue pour focus */
+}
+.btn-annuler {
+  background-color: #f44336; /* Rouge pour indiquer une action d'annulation */
+  color: white;
+  padding: 12px 20px; /* Taille similaire au bouton d'ajout */
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  margin: 10px 0; /* Un peu d'espace autour du bouton */
+}
+
+.btn-annuler:hover {
+  background-color: #e53935; /* Rouge légèrement plus foncé au survol */
+  transform: scale(1.05); /* Légère agrandissement au survol */
+}
+
+.btn-annuler:active {
+  background-color: #d32f2f; /* Rouge plus foncé au clic */
+  transform: scale(1);
+}
+
+.btn-annuler:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.6); /* Ombre rouge pour focus */
+}
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { leaves } from './Data'; // Assurez-vous que le fichier "Data.js" contient des données valides
+import { leaves } from './Data'; 
 import { useForm } from "react-hook-form";
+import { MdCheckCircle, MdCancel } from "react-icons/md"; // Import des icônes
 
 function Conger() {
   const [Congeés, setCongeés] = useState(leaves);
@@ -9,9 +10,8 @@ function Conger() {
   const [showTable, setShowTable] = useState(true);
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm();
-  const startDate = watch("startDate"); // Observer la date de début
+  const startDate = watch("startDate");
 
-  // Fonction pour ajouter une nouvelle demande de congé
   const onSubmit = (data) => {
     const newLeave = {
       id: Date.now(),
@@ -43,7 +43,6 @@ function Conger() {
     resetForm();
   };
 
-  // Fonction pour supprimer un congé
   const openModal = (id) => {
     setCurrentLeaveId(id);
     setIsModalOpen(true);
@@ -100,13 +99,13 @@ function Conger() {
                     )}
                     {e.status === "En attente" && (
                       <>
-                        <button className="btn2" onClick={() => Approuver(e.id)}>
-                          Approuver
-                        </button>
-                        <button className="btn2" onClick={() => Refuser(e.id)}>
-                          Refuser
-                        </button>
-                      </>
+                  <button className="btn2" onClick={() => Approuver(e.id)}>
+                      <MdCheckCircle className="icon approve" /> {/* Icône Approuver */}
+                    </button>
+                <button className="btn2" onClick={() => Refuser(e.id)}>
+             <MdCancel className="icon reject" /> {/* Icône Refuser */}
+           </button>
+</>           
                     )}
                   </td>
                 </tr>
@@ -137,13 +136,14 @@ function Conger() {
             <option value="Autre">Autre</option>
           </select>
           {errors.type && <p>{errors.type.message}</p>}
-
           <input
-            type="date"
-            {...register("startDate", { required: "La date de début est requise" })}
-            className="form-input"
-          />
-          {errors.startDate && <p>{errors.startDate.message}</p>}
+  type="date"
+  {...register("startDate", { required: "La date de début est requise" })}
+  className="form-input"
+  min={new Date().toISOString().split("T")[0]} // Cette ligne définit la date minimale sur aujourd'hui
+/>
+{errors.startDate && <p>{errors.startDate.message}</p>}
+
 
           <input
             type="date"
@@ -154,8 +154,8 @@ function Conger() {
               }
             })}
             className="form-input"
-            min={startDate}  // La date de fin doit être supérieure ou égale à la date de début
-            disabled={!startDate}  // Désactive le champ date de fin si la date de début n'est pas sélectionnée
+            min={startDate}
+            disabled={!startDate}
           />
           {errors.endDate && <p>{errors.endDate.message}</p>}
 

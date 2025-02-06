@@ -12,7 +12,6 @@ function Header() {
         <Link className="c" to="/">Tableau de Bord</Link>
         <Link className="c" to="/empl">Employés</Link>
         <Link className="c" to="/rec">Recrutement</Link>
-        <Link className="c" to="/per">Performance</Link>
         <Link className="c" to="/pai">Paie</Link>
         <Link className="c" to="/con">Congés</Link>
         <Link className="c" to="/uti">Utilisateurs</Link>

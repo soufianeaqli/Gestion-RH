@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Notification from './Notification/Notification';
 import './Mil.css';
 import { employers } from './Data';
 
@@ -7,7 +8,7 @@ const Employe = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);  // Modal pour la modification
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [newEmployee, setNewEmployee] = useState({
     id: '',
     name: '',
@@ -20,6 +21,8 @@ const Employe = () => {
     position: '',
     department: '',
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const openModal = (id) => {
     setCurrentEmployeeId(id);
@@ -37,6 +40,11 @@ const Employe = () => {
   };
 
   const handleAddEmployee = () => {
+    if (newEmployee.name === "" || newEmployee.position === "" || newEmployee.department === "") {
+      setErrorMessage("Tous les champs doivent être remplis.");
+      return;
+    }
+
     const newId = employees.length ? employees[employees.length - 1].id + 1 : 1;
     setEmployees([...employees, { ...newEmployee, id: newId }]);
     setIsAddModalOpen(false);
@@ -44,6 +52,11 @@ const Employe = () => {
   };
 
   const handleEditEmployee = () => {
+    if (editedEmployee.name === "" || editedEmployee.position === "" || editedEmployee.department === "") {
+      setErrorMessage("Tous les champs doivent être remplis.");
+      return;
+    }
+
     setEmployees(
       employees.map((emp) =>
         emp.id === editedEmployee.id ? editedEmployee : emp
@@ -80,12 +93,19 @@ const Employe = () => {
     setIsEditModalOpen(true);
   };
 
+  const closeErrorMessage = () => {
+    setErrorMessage("");
+  };
+
   return (
     <div>
       <h1>Tableau des Employés</h1>
       <button className="btn3" onClick={() => setIsAddModalOpen(true)}>
         Ajouter un employé
       </button>
+      {errorMessage && (
+        <Notification message={errorMessage} onClose={closeErrorMessage} />
+      )}
       <table border="1">
         <thead>
           <tr>
@@ -166,11 +186,11 @@ const Employe = () => {
               onChange={handleInputChange}
             />
             <div className="modal-actions">
-              <button className="btn" onClick={handleAddEmployee}>
+              <button className="btn-ajt" onClick={handleAddEmployee}>
                 Ajouter
               </button>
               <button
-                className="btn-cancel"
+                className="btn-annuler"
                 onClick={() => setIsAddModalOpen(false)}
               >
                 Annuler
@@ -208,7 +228,7 @@ const Employe = () => {
             />
             <div className="modal-actions">
               <button className="btn-edit" onClick={handleEditEmployee}>
-                Edit
+                Modifier
               </button>
               <button
                 className="btn-cancel"
