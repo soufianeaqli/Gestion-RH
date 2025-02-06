@@ -100,10 +100,10 @@ function Conger() {
                     {e.status === "En attente" && (
                       <>
                   <button className="btn2" onClick={() => Approuver(e.id)}>
-                      <MdCheckCircle className="icon approve" /> {/* Icône Approuver */}
+                      <MdCheckCircle  /> {/* Icône Approuver */}
                     </button>
                 <button className="btn2" onClick={() => Refuser(e.id)}>
-             <MdCancel className="icon reject" /> {/* Icône Refuser */}
+             <MdCancel  /> {/* Icône Refuser */}
            </button>
 </>           
                     )}

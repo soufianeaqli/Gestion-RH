@@ -74,36 +74,40 @@ td {
     color: white;
 }
 .btn2 {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    top: 10px;
-    margin: 0 5px;
-    transition: transform 0.2s ease-in-out;
+  border: none;
+  background-color: transparent !important; /* Force la transparence */
+  cursor: pointer;
+  top: 10px;
+  margin: 0 5px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn2 {
+  border: none;
+  background-color: transparent !important; /* Force la transparence */
+  cursor: pointer;
+  padding: 5px; /* Réduction de l'espace entre les boutons */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Empêcher tout changement de fond au hover */
+.btn2:hover {
+  background-color: transparent !important;
+  transform: scale(1.1); /* Effet de zoom léger */
 }
 
 .btn2:first-of-type svg {
-    width: 26px;  
-    height: 26px;
-    color: rgb(25, 253, 25);
+  width: 26px;  
+  height: 26px;
+  color: rgb(25, 253, 25);
 }
 .btn2:last-of-type svg {
-    width: 24px;
-    height: 22px;
-    color: red;
+  width: 24px;
+  height: 22px;
+  color: red;
 }
 
-.btn2:first-of-type {
-    color: rgb(25, 253, 25);
-}
 
-.btn2:last-of-type {
-    color: red;
-}
-
-.btn2:hover {
-    transform: scale(1.2);
-}
 
 
 .btn1 {

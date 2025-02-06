@@ -242,7 +242,7 @@ button:active {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #00f00c;
+    
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
