@@ -500,23 +500,9 @@ th:nth-child(5), td:nth-child(5) {
   transition: all 0.3s ease; /* Transition douce */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre pour effet visuel */
   display: inline-block;
-  margin: 10px 0; /* Un peu d'espace autour du bouton */
+  margin: 10px 15px 10px 0; /* Augmenter l'espace entre les boutons */
 }
 
-.btn-ajt:hover {
-  background-color: #45a049; /* Vert légèrement plus foncé au survol */
-  transform: scale(1.05); /* Légère agrandissement au survol */
-}
-
-.btn-ajt:active {
-  background-color: #3e8e41; /* Vert encore plus foncé au clic */
-  transform: scale(1); /* Retour à la taille normale après le clic */
-}
-
-.btn-ajt:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.6); /* Ombre bleue pour focus */
-}
 .btn-annuler {
   background-color: #f44336; /* Rouge pour indiquer une action d'annulation */
   color: white;
@@ -531,20 +517,67 @@ th:nth-child(5), td:nth-child(5) {
   margin: 10px 0; /* Un peu d'espace autour du bouton */
 }
 
-.btn-annuler:hover {
-  background-color: #e53935; /* Rouge légèrement plus foncé au survol */
-  transform: scale(1.05); /* Légère agrandissement au survol */
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 20px;
+  width: 90%;
+  height: 45px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s ease;
 }
 
-.btn-annuler:active {
-  background-color: #d32f2f; /* Rouge plus foncé au clic */
-  transform: scale(1);
+.file-upload:hover {
+  background: #0056b3;
 }
 
-.btn-annuler:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.6); /* Ombre rouge pour focus */
+.file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
+
+.file-upload span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+a.download-cv {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007bff; /* Bleu simple et professionnel */
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid transparent; /* Bordure subtile */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a.download-cv:hover {
+  background-color: #0056b3; /* Bleu légèrement plus foncé au survol */
+  border-color: #0056b3; /* Bordure qui devient bleue au survol */
+}
+
+a.download-cv:active {
+  background-color: #004085; /* Bleu encore plus foncé au clic */
+  transform: scale(0.98); /* Légère réduction au clic */
+}
+
 
 
 

@@ -1,43 +1,20 @@
 import React, { useState } from "react";
 import Notification from './Notification/Notification';
 import './Mil.css';
-import { employers } from './Data';
 
-const Employe = () => {
-  const [employees, setEmployees] = useState(employers);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+const Employe = ({ employees, addEmployee, removeEmployee }) => {
   const [newEmployee, setNewEmployee] = useState({
     id: '',
     name: '',
     position: '',
     department: '',
   });
-  const [editedEmployee, setEditedEmployee] = useState({
-    id: '',
-    name: '',
-    position: '',
-    department: '',
-  });
-
   const [errorMessage, setErrorMessage] = useState("");
-
-  const openModal = (id) => {
-    setCurrentEmployeeId(id);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentEmployeeId(null);
-  };
-
-  const handleDelete = () => {
-    setEmployees(employees.filter((e) => e.id !== currentEmployeeId));
-    closeModal();
-  };
+  const [successMessage, setSuccessMessage] = useState(""); // Message de succès pour l'ajout
+  const [deleteMessage, setDeleteMessage] = useState(""); // Message de suppression
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Gérer l'ouverture de la modale de suppression
+  const [employeeToDelete, setEmployeeToDelete] = useState(null); // Stocker l'employé à supprimer
 
   const handleAddEmployee = () => {
     if (newEmployee.name === "" || newEmployee.position === "" || newEmployee.department === "") {
@@ -46,29 +23,10 @@ const Employe = () => {
     }
 
     const newId = employees.length ? employees[employees.length - 1].id + 1 : 1;
-    setEmployees([...employees, { ...newEmployee, id: newId }]);
+    addEmployee({ ...newEmployee, id: newId, salaire: 0, prime: 0, totalSalaire: 0 });
+    setSuccessMessage("Employé ajouté avec succès !");
     setIsAddModalOpen(false);
     setNewEmployee({ id: '', name: '', position: '', department: '' });
-  };
-
-  const handleEditEmployee = () => {
-    if (editedEmployee.name === "" || editedEmployee.position === "" || editedEmployee.department === "") {
-      setErrorMessage("Tous les champs doivent être remplis.");
-      return;
-    }
-
-    setEmployees(
-      employees.map((emp) =>
-        emp.id === editedEmployee.id ? editedEmployee : emp
-      )
-    );
-    setIsEditModalOpen(false);
-    setEditedEmployee({
-      id: '',
-      name: '',
-      position: '',
-      department: '',
-    });
   };
 
   const handleInputChange = (e) => {
@@ -79,32 +37,56 @@ const Employe = () => {
     });
   };
 
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedEmployee({
-      ...editedEmployee,
-      [name]: value,
-    });
-  };
-
-  const openEditModal = (id) => {
-    const employeeToEdit = employees.find((emp) => emp.id === id);
-    setEditedEmployee(employeeToEdit);
-    setIsEditModalOpen(true);
-  };
-
   const closeErrorMessage = () => {
     setErrorMessage("");
+  };
+
+  const closeSuccessMessage = () => {
+    setSuccessMessage("");
+  };
+
+  const closeDeleteMessage = () => {
+    setDeleteMessage("");
+  };
+
+  // Fonction de suppression d'employé
+  const handleRemove = (id) => {
+    setEmployeeToDelete(id); // Stocke l'employé à supprimer
+    setIsDeleteModalOpen(true); // Ouvre la modale de confirmation
+  };
+
+  // Confirmer la suppression
+  const confirmDelete = () => {
+    removeEmployee(employeeToDelete); // Supprime l'employé
+    setDeleteMessage("L'employé a été supprimé avec succès !");
+    setIsDeleteModalOpen(false); // Ferme la modale de confirmation
+  };
+
+  // Annuler la suppression
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false); // Ferme la modale de confirmation sans supprimer
+  };
+
+  // Fonction pour annuler l'ajout et réinitialiser les champs
+  const cancelAddEmployee = () => {
+    setIsAddModalOpen(false); // Fermer la modale d'ajout
+    setNewEmployee({ id: '', name: '', position: '', department: '' }); // Réinitialiser les champs
   };
 
   return (
     <div>
       <h1>Tableau des Employés</h1>
-      <button className="btn3" onClick={() => setIsAddModalOpen(true)}>
+      <button className="btn1" onClick={() => setIsAddModalOpen(true)}>
         Ajouter un employé
       </button>
       {errorMessage && (
-        <Notification message={errorMessage} onClose={closeErrorMessage} />
+        <Notification message={errorMessage} onClose={closeErrorMessage} type="error" />
+      )}
+      {successMessage && (
+        <Notification message={successMessage} onClose={closeSuccessMessage} type="success" />
+      )}
+      {deleteMessage && (
+        <Notification message={deleteMessage} onClose={closeDeleteMessage} type="error" /> 
       )}
       <table border="1">
         <thead>
@@ -113,7 +95,7 @@ const Employe = () => {
             <th>Nom</th>
             <th>Poste</th>
             <th>Département</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -124,16 +106,7 @@ const Employe = () => {
               <td>{employee.position}</td>
               <td>{employee.department}</td>
               <td>
-                <button
-                  className="btn4"
-                  onClick={() => openEditModal(employee.id)}
-                >
-                  Modifier
-                </button>
-                <button
-                  className="btn"
-                  onClick={() => openModal(employee.id)}
-                >
+                <button className="btn" onClick={() => handleRemove(employee.id)}>
                   Supprimer
                 </button>
               </td>
@@ -141,23 +114,6 @@ const Employe = () => {
           ))}
         </tbody>
       </table>
-
-      {/* Modale de confirmation de suppression */}
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>Êtes-vous sûr de vouloir supprimer cet employé ?</p>
-            <div className="modal-actions">
-              <button className="btn-sup" onClick={handleDelete}>
-                Oui
-              </button>
-              <button className="btn-cancel" onClick={closeModal}>
-                Non
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Modale d'ajout d'employé */}
       {isAddModalOpen && (
@@ -191,7 +147,7 @@ const Employe = () => {
               </button>
               <button
                 className="btn-annuler"
-                onClick={() => setIsAddModalOpen(false)}
+                onClick={cancelAddEmployee}
               >
                 Annuler
               </button>
@@ -200,42 +156,14 @@ const Employe = () => {
         </div>
       )}
 
-      {/* Modale de modification d'employé */}
-      {isEditModalOpen && (
+      {/* Modale de confirmation de suppression */}
+      {isDeleteModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Modifier l'Employé</h2>
-            <input
-              type="text"
-              name="name"
-              placeholder="Nom de l'employé"
-              value={editedEmployee.name}
-              onChange={handleEditInputChange}
-            />
-            <input
-              type="text"
-              name="position"
-              placeholder="Poste"
-              value={editedEmployee.position}
-              onChange={handleEditInputChange}
-            />
-            <input
-              type="text"
-              name="department"
-              placeholder="Département"
-              value={editedEmployee.department}
-              onChange={handleEditInputChange}
-            />
+            <h2>Êtes-vous sûr de vouloir supprimer cet employé ?</h2>
             <div className="modal-actions">
-              <button className="btn-edit" onClick={handleEditEmployee}>
-                Modifier
-              </button>
-              <button
-                className="btn-cancel"
-                onClick={() => setIsEditModalOpen(false)}
-              >
-                Annuler
-              </button>
+              <button className="btn-ajt" onClick={confirmDelete}>Confirmer</button>
+              <button className="btn-annuler" onClick={cancelDelete}>Annuler</button>
             </div>
           </div>
         </div>

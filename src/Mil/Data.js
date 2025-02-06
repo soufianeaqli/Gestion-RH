@@ -1,16 +1,105 @@
-export const employers = [
-    { id: 1, name: "Ahmed", position: "Développeur", department: "IT" },
-    { id: 2, name: "Fatima", position: "Designer", department: "Design" },
-    { id: 3, name: "Ali", position: "RH", department: "Ressources Humaines" },
-    { id: 4, name: "Yassine", position: "Chef de projet", department: "Gestion de projet" },
-    { id: 5, name: "Salma", position: "Marketing", department: "Marketing" },
-    { id: 6, name: "Hassan", position: "Comptable", department: "Finance" },
-    { id: 7, name: "Nadia", position: "Développeur", department: "IT" },
-    { id: 8, name: "Omar", position: "Support IT", department: "IT" },
-    { id: 9, name: "Lina", position: "Designer", department: "Design" },
-    { id: 10, name: "Karim", position: "Analyste", department: "Business Intelligence" },
-    { id: 11, name: "Sami", position: "Technicien", department: "Support Technique" },
+export const employees = [
+  { 
+    id: 1, 
+    name: "Ahmed", 
+    position: "Développeur", 
+    department: "IT", 
+    salaire: 4000, 
+    prime: 500, 
+    totalSalaire: 4500 
+  },
+  { 
+    id: 2, 
+    name: "Fatima", 
+    position: "Designer", 
+    department: "Design", 
+    salaire: 3800, 
+    prime: 400, 
+    totalSalaire: 4200 
+  },
+  { 
+    id: 3, 
+    name: "Ali", 
+    position: "RH", 
+    department: "Ressources Humaines", 
+    salaire: 3500, 
+    prime: 300, 
+    totalSalaire: 3800 
+  },
+  { 
+    id: 4, 
+    name: "Yassine", 
+    position: "Chef de projet", 
+    department: "Gestion de projet", 
+    salaire: 6000, 
+    prime: 800, 
+    totalSalaire: 6800 
+  },
+  { 
+    id: 5, 
+    name: "Salma", 
+    position: "Marketing", 
+    department: "Marketing", 
+    salaire: 3700, 
+    prime: 350, 
+    totalSalaire: 4050 
+  },
+  { 
+    id: 6, 
+    name: "Hassan", 
+    position: "Comptable", 
+    department: "Finance", 
+    salaire: 3900, 
+    prime: 450, 
+    totalSalaire: 4350 
+  },
+  { 
+    id: 7, 
+    name: "Nadia", 
+    position: "Développeur", 
+    department: "IT", 
+    salaire: 4100, 
+    prime: 550, 
+    totalSalaire: 4650 
+  },
+  { 
+    id: 8, 
+    name: "Omar", 
+    position: "Support IT", 
+    department: "IT", 
+    salaire: 3200, 
+    prime: 300, 
+    totalSalaire: 3500 
+  },
+  { 
+    id: 9, 
+    name: "Lina", 
+    position: "Designer", 
+    department: "Design", 
+    salaire: 3900, 
+    prime: 450, 
+    totalSalaire: 4350 
+  },
+  { 
+    id: 10, 
+    name: "Karim", 
+    position: "Analyste", 
+    department: "Business Intelligence", 
+    salaire: 4200, 
+    prime: 500, 
+    totalSalaire: 4700 
+  },
+  { 
+    id: 11, 
+    name: "Sami", 
+    position: "Technicien", 
+    department: "Support Technique", 
+    salaire: 3400, 
+    prime: 400, 
+    totalSalaire: 3800 
+  }
 ];
+
 export const leaves = [
     { id: 1, employee: "Ahmed", type: "Maladie", startDate: "2025-02-01", endDate: "2025-02-05", status: "Approuvé" },
     { id: 2, employee: "Fatima", type: "Congé annuel", startDate: "2025-02-10", endDate: "2025-02-15", status: "En attente" },
@@ -18,51 +107,41 @@ export const leaves = [
     { id: 4, employee: "Yassine", type: "Congé parental", startDate: "2025-03-01", endDate: "2025-03-10", status: "Approuvé" },
     { id: 5, employee: "Salma", type: "Congé annuel", startDate: "2025-04-05", endDate: "2025-04-15", status: "En attente" },
     { id: 6, employee: "Hassan", type: "Maladie", startDate: "2025-02-20", endDate: "2025-02-25", status: "Approuvé" }];
-    export const Recrute = [
+    export const candidatures = [
       {
         id: 1,
-        title: "Développeur Frontend",
-        description: "Créer des interfaces modernes et dynamiques avec React.js, HTML, CSS et JavaScript. Expérience avec les API REST requise."
+        nom: "Ahmed Benali",
+        poste: "Développeur Frontend",
+        cv: "cv_ahmed_benali.pdf"
       },
       {
         id: 2,
-        title: "Développeur Backend",
-        description: "Construire des systèmes robustes avec Node.js, Express et des bases de données relationnelles. Connaissance des microservices appréciée."
+        nom: "Fatima Zahra El Amrani",
+        poste: "Cheffe de projet",
+        cv: "cv_fatima_zahra_el_amrani.pdf"
       },
       {
         id: 3,
-        title: "Designer UI/UX",
-        description: "Concevoir des interfaces intuitives et esthétiques en utilisant des outils comme Figma et Adobe XD, en collaboration avec les développeurs."
+        nom: "Mohamed Boulahcen",
+        poste: "Data Analyst",
+        cv: "cv_mohamed_boulahcen.pdf"
       },
       {
         id: 4,
-        title: "Chef de Projet Agile",
-        description: "Coordonner les équipes avec la méthodologie Scrum. Planification des sprints et suivi des objectifs. Certification Scrum Master préférée."
+        nom: "Sofia Karim",
+        poste: "Designer UI/UX",
+        cv: "cv_sofia_karim.pdf"
       },
       {
         id: 5,
-        title: "Responsable Marketing Digital",
-        description: "Gérer la stratégie de marketing en ligne avec SEO, réseaux sociaux et publicité payante. Expérience en campagnes publicitaires requise."
-      },
-      {
-        id: 6,
-        title: "Community Manager",
-        description: "Gérer la présence en ligne, créer du contenu engageant sur les réseaux sociaux et interagir avec la communauté."
+        nom: "Yassine Oukili",
+        poste: "Ingénieur DevOps",
+        cv: "cv_yassine_oukili.pdf"
       }
     ];
-    export const paie = [
-      { id: 1, name: "Ahmed", salaire: 4000, prime: 500, totalSalaire: 4500 },
-      { id: 2, name: "Fatima", salaire: 3800, prime: 400, totalSalaire: 4200 },
-      { id: 3, name: "Ali", salaire: 3500, prime: 300, totalSalaire: 3800 },
-      { id: 4, name: "Yassine", salaire: 6000, prime: 800, totalSalaire: 6800 },
-      { id: 5, name: "Salma", salaire: 3700, prime: 350, totalSalaire: 4050 },
-      { id: 6, name: "Hassan", salaire: 3900, prime: 450, totalSalaire: 4350 },
-      { id: 7, name: "Nadia", salaire: 4100, prime: 550, totalSalaire: 4650 },
-      { id: 8, name: "Omar", salaire: 3200, prime: 300, totalSalaire: 3500 },
-      { id: 9, name: "Lina", salaire: 3900, prime: 450, totalSalaire: 4350 },
-      { id: 10, name: "Karim", salaire: 4200, prime: 500, totalSalaire: 4700 },
-      { id: 11, name: "Sami", salaire: 3400, prime: 400, totalSalaire: 3800 },
-    ];
+    
+  
+
     
 
 
