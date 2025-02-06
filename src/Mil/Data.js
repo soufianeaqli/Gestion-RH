@@ -50,6 +50,19 @@ export const leaves = [
         description: "Gérer la présence en ligne, créer du contenu engageant sur les réseaux sociaux et interagir avec la communauté."
       }
     ];
+    export const paie = [
+      { id: 1, name: "Ahmed", salaire: 4000, prime: 500, totalSalaire: 4500 },
+      { id: 2, name: "Fatima", salaire: 3800, prime: 400, totalSalaire: 4200 },
+      { id: 3, name: "Ali", salaire: 3500, prime: 300, totalSalaire: 3800 },
+      { id: 4, name: "Yassine", salaire: 6000, prime: 800, totalSalaire: 6800 },
+      { id: 5, name: "Salma", salaire: 3700, prime: 350, totalSalaire: 4050 },
+      { id: 6, name: "Hassan", salaire: 3900, prime: 450, totalSalaire: 4350 },
+      { id: 7, name: "Nadia", salaire: 4100, prime: 550, totalSalaire: 4650 },
+      { id: 8, name: "Omar", salaire: 3200, prime: 300, totalSalaire: 3500 },
+      { id: 9, name: "Lina", salaire: 3900, prime: 450, totalSalaire: 4350 },
+      { id: 10, name: "Karim", salaire: 4200, prime: 500, totalSalaire: 4700 },
+      { id: 11, name: "Sami", salaire: 3400, prime: 400, totalSalaire: 3800 },
+    ];
     
 
 
