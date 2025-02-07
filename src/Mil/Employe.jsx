@@ -49,28 +49,24 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
     setDeleteMessage("");
   };
 
-  // Fonction de suppression d'employé
   const handleRemove = (id) => {
-    setEmployeeToDelete(id); // Stocke l'employé à supprimer
-    setIsDeleteModalOpen(true); // Ouvre la modale de confirmation
+    setEmployeeToDelete(id);
+    setIsDeleteModalOpen(true);
   };
 
-  // Confirmer la suppression
   const confirmDelete = () => {
-    removeEmployee(employeeToDelete); // Supprime l'employé
+    removeEmployee(employeeToDelete);
     setDeleteMessage("L'employé a été supprimé avec succès !");
-    setIsDeleteModalOpen(false); // Ferme la modale de confirmation
+    setIsDeleteModalOpen(false);
   };
 
-  // Annuler la suppression
   const cancelDelete = () => {
-    setIsDeleteModalOpen(false); // Ferme la modale de confirmation sans supprimer
+    setIsDeleteModalOpen(false);
   };
 
-  // Fonction pour annuler l'ajout et réinitialiser les champs
   const cancelAddEmployee = () => {
-    setIsAddModalOpen(false); // Fermer la modale d'ajout
-    setNewEmployee({ id: '', name: '', position: '', department: '' }); // Réinitialiser les champs
+    setIsAddModalOpen(false);
+    setNewEmployee({ id: '', name: '', position: '', department: '' });
   };
 
   return (
@@ -86,7 +82,7 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
         <Notification message={successMessage} onClose={closeSuccessMessage} type="success" />
       )}
       {deleteMessage && (
-        <Notification message={deleteMessage} onClose={closeDeleteMessage} type="error" /> 
+        <Notification message={deleteMessage} onClose={closeDeleteMessage} type="error" />
       )}
       <table border="1">
         <thead>
@@ -115,7 +111,6 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
         </tbody>
       </table>
 
-      {/* Modale d'ajout d'employé */}
       {isAddModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -145,10 +140,7 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
               <button className="btn-ajt" onClick={handleAddEmployee}>
                 Ajouter
               </button>
-              <button
-                className="btn-annuler"
-                onClick={cancelAddEmployee}
-              >
+              <button className="btn-annuler" onClick={cancelAddEmployee}>
                 Annuler
               </button>
             </div>
@@ -156,7 +148,6 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
         </div>
       )}
 
-      {/* Modale de confirmation de suppression */}
       {isDeleteModalOpen && (
         <div className="modal">
           <div className="modal-content">
