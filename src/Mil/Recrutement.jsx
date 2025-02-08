@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { candidatures } from './Data';
 import Notification from './Notification/Notification'; // Import the Notification component
 
 function Recrutement() {

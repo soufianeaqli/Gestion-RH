@@ -1,11 +1,9 @@
 import React from "react";
 import './Table.css'; 
-import {leaves} from './Data';
 
-const Table = ({ employees, candidatures }) => {
-  const totalEmployees = employees.length;
-  const pendingLeavesCount = leaves.filter(leave => leave.status === "En attente").length;
-  const demandeCandidature = candidatures.length;  // Update this line to use the candidatures prop
+const Table = ({ employees = [], candidatures = [], pendingLeavesCount = 0 }) => {
+  const totalEmployees = employees?.length || 0;
+  const demandeCandidature = candidatures?.length || 0;
 
   return (
     <div className="container mt-5">
@@ -23,7 +21,7 @@ const Table = ({ employees, candidatures }) => {
           <div className="card text-center">
             <div className="card-body">
               <h2 className="card-title">Demande de Candidature</h2>
-              <p className="card-text display-4">{demandeCandidature}</p>  {/* Display the updated count */}
+              <p className="card-text display-4">{demandeCandidature}</p>  
             </div>
           </div>
         </div>

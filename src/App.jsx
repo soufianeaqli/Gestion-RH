@@ -6,7 +6,6 @@ import Header from './Head/Header';
 import Conger from './Mil/Conger';
 import Recrutement from './Mil/Recrutement';
 import Paie from './Mil/Paie';
-import { candidatures as initialCandidatures } from './Mil/Data';
 
 function App() {
   // 🟢 Charger les employés depuis localStorage au démarrage
@@ -15,16 +14,17 @@ function App() {
     return savedEmployees ? JSON.parse(savedEmployees) : [];
   });
 
-  // 🟢 Charger les candidatures depuis localStorage ou depuis un fichier initial
+  // 🟢 Charger les candidatures depuis localStorage (si disponibles)
   const [candidatures, setCandidatures] = useState(() => {
     const savedCandidatures = localStorage.getItem('candidatures');
-    return savedCandidatures ? JSON.parse(savedCandidatures) : initialCandidatures;
+    return savedCandidatures ? JSON.parse(savedCandidatures) : []; // Initialisation vide si pas de données
   });
 
-  // 🟢 Sauvegarde automatique des employés dans localStorage lorsqu'ils changent
+  // 🟢 Sauvegarde automatique des employés et des candidatures dans localStorage
   useEffect(() => {
     localStorage.setItem('employees', JSON.stringify(employees));
-  }, [employees]);
+    localStorage.setItem('candidatures', JSON.stringify(candidatures)); // Sauvegarde les candidatures aussi
+  }, [employees, candidatures]);
 
   // 🟢 Fonction pour ajouter un employé
   const addEmployee = (newEmployee) => {

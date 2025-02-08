@@ -43,3 +43,15 @@
     font-size: 40px;
     font-weight: bold;
 }
+
+.me img {
+    height: 55px;  /* Ajuste cette valeur pour agrandir le logo */
+    width: auto; 
+    position: relative;
+    left: 7px;
+    color: white;  /* Maintient les proportions */
+    object-fit: contain; /* Évite la déformation */
+    transition: transform 0.3s ease; /* Animation fluide */
+    transform: scale(1.4);
+}
+

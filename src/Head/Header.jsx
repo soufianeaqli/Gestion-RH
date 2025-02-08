@@ -1,12 +1,13 @@
 import React from 'react';
 import './Header.css';
+import Logo from './Capture_d_écran_2025-02-08_145637-removebg-preview.png'
 import { Link } from 'react-router-dom';
 
 function Header() {
   return (
     <div className="D1">
       <div className="me">
-        <Link to="/" className="T">RH</Link>
+        <Link to="/" className="T"><img src={Logo} alt="" /></Link>
       </div>
       <div className="a">
         <Link className="c" to="/">Tableau de Bord</Link>

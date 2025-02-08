@@ -27,7 +27,7 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
     const updatedEmployee = { 
       ...newEmployee, 
       id: newId, 
-      salaire: 0, 
+      salaire: 2500, 
       prime: 0, 
       totalSalaire: 0 
     };

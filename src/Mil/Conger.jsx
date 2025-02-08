@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { leaves } from './Data';
 import { useForm } from "react-hook-form";
 import { MdCheckCircle, MdCancel } from "react-icons/md";
 import Notification from './Notification/Notification';
 
 function Conger() {
-  // Charger les congés depuis localStorage ou utiliser ceux par défaut
+  // Charger les congés depuis localStorage ou commencer avec une liste vide
   const [Congeés, setCongeés] = useState(() => {
     const storedLeaves = localStorage.getItem("congees");
-    return storedLeaves ? JSON.parse(storedLeaves) : leaves;
+    return storedLeaves ? JSON.parse(storedLeaves) : []; // Toujours renvoyer un tableau
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,12 +18,12 @@ function Conger() {
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
   const startDate = watch("startDate");
 
-  // Sauvegarde automatique des congés dans localStorage
+  // Sauvegarde automatique dans localStorage
   useEffect(() => {
     localStorage.setItem("congees", JSON.stringify(Congeés));
   }, [Congeés]);
 
-  // Ajout d'un nouveau congé
+  // Ajouter un nouveau congé
   const onSubmit = (data) => {
     const newLeave = {
       id: Date.now(),
@@ -35,8 +34,8 @@ function Conger() {
       status: "En attente",
     };
 
-    setCongeés((prevCongeés) => [...prevCongeés, newLeave]);
-    reset(); // ✅ Réinitialiser correctement le formulaire
+    setCongeés([...Congeés, newLeave]);
+    reset();
     setShowTable(true);
   };
 
@@ -57,21 +56,21 @@ function Conger() {
   };
 
   const supp = () => {
-    setCongeés((prevCongeés) => prevCongeés.filter((leave) => leave.id !== currentLeaveId));
+    setCongeés(Congeés.filter((leave) => leave.id !== currentLeaveId));
     setDeleteMessage("La demande de congé a été supprimée avec succès !");
     closeModal();
   };
 
   const Approuver = (id) => {
-    setCongeés((prevCongeés) =>
-      prevCongeés.map((leave) => leave.id === id ? { ...leave, status: "Approuvé" } : leave)
-    );
+    setCongeés(Congeés.map((leave) => 
+      leave.id === id ? { ...leave, status: "Approuvé" } : leave
+    ));
   };
 
   const Refuser = (id) => {
-    setCongeés((prevCongeés) =>
-      prevCongeés.map((leave) => leave.id === id ? { ...leave, status: "Rejeté" } : leave)
-    );
+    setCongeés(Congeés.map((leave) => 
+      leave.id === id ? { ...leave, status: "Rejeté" } : leave
+    ));
   };
 
   return (
