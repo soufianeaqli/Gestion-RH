@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { candidatures } from './Data';
 import Notification from './Notification/Notification'; // Import the Notification component
 
 function Recrutement() {
-    const [candidats, setCandidats] = useState(candidatures);
+    const [candidats, setCandidats] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -11,6 +11,21 @@ function Recrutement() {
     const [newCandidat, setNewCandidat] = useState({ nom: "", poste: "", cv: "" });
     const [editedCandidat, setEditedCandidat] = useState({ id: "", nom: "", poste: "", cv: "" });
     const [errorMessage, setErrorMessage] = useState(''); // State for error message
+
+    // Charger les candidats depuis localStorage
+    useEffect(() => {
+        const storedCandidats = JSON.parse(localStorage.getItem('candidats'));
+        if (storedCandidats) {
+            setCandidats(storedCandidats);
+        }
+    }, []);
+
+    // Sauvegarder les candidats dans localStorage lorsque la liste change
+    useEffect(() => {
+        if (candidats.length > 0) {
+            localStorage.setItem('candidats', JSON.stringify(candidats));
+        }
+    }, [candidats]);
 
     const openEditModal = (id) => {
         const candidatToEdit = candidats.find((cand) => cand.id === id);

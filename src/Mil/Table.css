@@ -1,0 +1,88 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Empile le titre et les cartes verticalement */
+    align-items: center; /* Centrer le contenu horizontalement */
+    height: 100vh; /* Utiliser toute la hauteur de la fenêtre */
+    justify-content: flex-start; /* Place le titre en haut */
+    padding-top: 2rem; /* Ajoute de l'espace en haut */
+}
+
+
+
+.card {
+    border-radius: 8px;
+    border: 3px solid #3487da; /* Bordure bleue */
+    background-color: #3487da; /* Fond bleu de la carte */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition douce */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer le contenu verticalement dans la carte */
+    align-items: center; /* Centrer le contenu horizontalement dans la carte */
+    width: 350px; /* Taille fixe de la carte */
+    height: 350px; /* Taille fixe de la carte */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Effet de zoom au survol */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Augmenter l'ombre pour l'effet de survol */
+}
+
+.card-body {
+    padding: 20px;
+    background-color: #3487da; /* Garder le même fond que la carte */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Aligner les éléments en haut */
+    align-items: center; /* Centrer le contenu horizontalement */
+    height: 100%; /* Occuper toute la hauteur de la carte */
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 10px; /* Un petit écart pour séparer le titre du haut de la carte */
+}
+
+.card-text {
+    font-size: 3rem; /* Augmenter la taille du nombre */
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 20px; /* Un peu d'espace avant le texte */
+    text-align: center; /* Centrer le texte horizontalement */
+    display: flex;
+    justify-content: center; /* Centrer le texte verticalement */
+    align-items: center; /* Centrer le texte verticalement */
+    height: 100%; /* Remplir l'espace restant dans la carte */
+}
+
+.row {
+    display: flex;
+    justify-content: center; /* Centrer les cartes horizontalement */
+    align-items: center; /* Centrer les cartes verticalement */
+    gap: 20px; /* Espace entre les cartes */
+    width: 100%; /* Assurer que la largeur est pleine */
+}
+
+.col-md-4 {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Centrer chaque carte individuellement */
+    align-items: center; /* Centrer chaque carte individuellement */
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}

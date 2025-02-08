@@ -9,12 +9,13 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
     position: '',
     department: '',
   });
+
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState(""); // Message de succès pour l'ajout
-  const [deleteMessage, setDeleteMessage] = useState(""); // Message de suppression
+  const [successMessage, setSuccessMessage] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Gérer l'ouverture de la modale de suppression
-  const [employeeToDelete, setEmployeeToDelete] = useState(null); // Stocker l'employé à supprimer
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
   const handleAddEmployee = () => {
     if (newEmployee.name === "" || newEmployee.position === "" || newEmployee.department === "") {
@@ -23,54 +24,29 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
     }
 
     const newId = employees.length ? employees[employees.length - 1].id + 1 : 1;
-    addEmployee({ ...newEmployee, id: newId, salaire: 0, prime: 0, totalSalaire: 0 });
+    const updatedEmployee = { 
+      ...newEmployee, 
+      id: newId, 
+      salaire: 0, 
+      prime: 0, 
+      totalSalaire: 0 
+    };
+
+    addEmployee(updatedEmployee); // 🔥 Met à jour globalement via App.js
     setSuccessMessage("Employé ajouté avec succès !");
     setIsAddModalOpen(false);
     setNewEmployee({ id: '', name: '', position: '', department: '' });
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewEmployee({
-      ...newEmployee,
-      [name]: value,
-    });
-  };
-
-  const closeErrorMessage = () => {
-    setErrorMessage("");
-  };
-
-  const closeSuccessMessage = () => {
-    setSuccessMessage("");
-  };
-
-  const closeDeleteMessage = () => {
-    setDeleteMessage("");
-  };
-
-  // Fonction de suppression d'employé
   const handleRemove = (id) => {
-    setEmployeeToDelete(id); // Stocke l'employé à supprimer
-    setIsDeleteModalOpen(true); // Ouvre la modale de confirmation
+    setEmployeeToDelete(id);
+    setIsDeleteModalOpen(true);
   };
 
-  // Confirmer la suppression
   const confirmDelete = () => {
-    removeEmployee(employeeToDelete); // Supprime l'employé
+    removeEmployee(employeeToDelete); // 🔥 Met à jour globalement via App.js
     setDeleteMessage("L'employé a été supprimé avec succès !");
-    setIsDeleteModalOpen(false); // Ferme la modale de confirmation
-  };
-
-  // Annuler la suppression
-  const cancelDelete = () => {
-    setIsDeleteModalOpen(false); // Ferme la modale de confirmation sans supprimer
-  };
-
-  // Fonction pour annuler l'ajout et réinitialiser les champs
-  const cancelAddEmployee = () => {
-    setIsAddModalOpen(false); // Fermer la modale d'ajout
-    setNewEmployee({ id: '', name: '', position: '', department: '' }); // Réinitialiser les champs
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -79,19 +55,14 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
       <button className="btn1" onClick={() => setIsAddModalOpen(true)}>
         Ajouter un employé
       </button>
-      {errorMessage && (
-        <Notification message={errorMessage} onClose={closeErrorMessage} type="error" />
-      )}
-      {successMessage && (
-        <Notification message={successMessage} onClose={closeSuccessMessage} type="success" />
-      )}
-      {deleteMessage && (
-        <Notification message={deleteMessage} onClose={closeDeleteMessage} type="error" /> 
-      )}
+
+      {errorMessage && <Notification message={errorMessage} onClose={() => setErrorMessage("")} type="error" />}
+      {successMessage && <Notification message={successMessage} onClose={() => setSuccessMessage("")} type="success" />}
+      {deleteMessage && <Notification message={deleteMessage} onClose={() => setDeleteMessage("")} type="error" />}
+
       <table border="1">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nom</th>
             <th>Poste</th>
             <th>Département</th>
@@ -101,7 +72,6 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
         <tbody>
           {employees.map((employee) => (
             <tr key={employee.id}>
-              <td>{employee.id}</td>
               <td>{employee.name}</td>
               <td>{employee.position}</td>
               <td>{employee.department}</td>
@@ -115,55 +85,28 @@ const Employe = ({ employees, addEmployee, removeEmployee }) => {
         </tbody>
       </table>
 
-      {/* Modale d'ajout d'employé */}
       {isAddModalOpen && (
         <div className="modal">
           <div className="modal-content">
             <h2>Ajouter un Employé</h2>
-            <input
-              type="text"
-              name="name"
-              placeholder="Nom de l'employé"
-              value={newEmployee.name}
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="position"
-              placeholder="Poste"
-              value={newEmployee.position}
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="department"
-              placeholder="Département"
-              value={newEmployee.department}
-              onChange={handleInputChange}
-            />
+            <input type="text" name="name" placeholder="Nom" value={newEmployee.name} onChange={(e) => setNewEmployee({ ...newEmployee, name: e.target.value })} />
+            <input type="text" name="position" placeholder="Poste" value={newEmployee.position} onChange={(e) => setNewEmployee({ ...newEmployee, position: e.target.value })} />
+            <input type="text" name="department" placeholder="Département" value={newEmployee.department} onChange={(e) => setNewEmployee({ ...newEmployee, department: e.target.value })} />
             <div className="modal-actions">
-              <button className="btn-ajt" onClick={handleAddEmployee}>
-                Ajouter
-              </button>
-              <button
-                className="btn-annuler"
-                onClick={cancelAddEmployee}
-              >
-                Annuler
-              </button>
+              <button className="btn-ajt" onClick={handleAddEmployee}>Ajouter</button>
+              <button className="btn-annuler" onClick={() => setIsAddModalOpen(false)}>Annuler</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modale de confirmation de suppression */}
       {isDeleteModalOpen && (
         <div className="modal">
           <div className="modal-content">
             <h2>Êtes-vous sûr de vouloir supprimer cet employé ?</h2>
             <div className="modal-actions">
               <button className="btn-ajt" onClick={confirmDelete}>Confirmer</button>
-              <button className="btn-annuler" onClick={cancelDelete}>Annuler</button>
+              <button className="btn-annuler" onClick={() => setIsDeleteModalOpen(false)}>Annuler</button>
             </div>
           </div>
         </div>

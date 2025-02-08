@@ -1,19 +1,30 @@
-import React, { useState } from "react";
-import { leaves } from './Data'; 
+import React, { useState, useEffect } from "react";
+import { leaves } from './Data';
 import { useForm } from "react-hook-form";
-import { MdCheckCircle, MdCancel } from "react-icons/md"; // Import des icônes
-import Notification from './Notification/Notification'; // Importer le composant Notification
+import { MdCheckCircle, MdCancel } from "react-icons/md";
+import Notification from './Notification/Notification';
 
 function Conger() {
-  const [Congeés, setCongeés] = useState(leaves);
+  // Charger les congés depuis localStorage ou utiliser ceux par défaut
+  const [Congeés, setCongeés] = useState(() => {
+    const storedLeaves = localStorage.getItem("congees");
+    return storedLeaves ? JSON.parse(storedLeaves) : leaves;
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentLeaveId, setCurrentLeaveId] = useState(null);
   const [showTable, setShowTable] = useState(true);
-  const [deleteMessage, setDeleteMessage] = useState(""); // Message de suppression
+  const [deleteMessage, setDeleteMessage] = useState("");
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
   const startDate = watch("startDate");
 
+  // Sauvegarde automatique des congés dans localStorage
+  useEffect(() => {
+    localStorage.setItem("congees", JSON.stringify(Congeés));
+  }, [Congeés]);
+
+  // Ajout d'un nouveau congé
   const onSubmit = (data) => {
     const newLeave = {
       id: Date.now(),
@@ -25,24 +36,14 @@ function Conger() {
     };
 
     setCongeés((prevCongeés) => [...prevCongeés, newLeave]);
-    resetForm();
+    reset(); // ✅ Réinitialiser correctement le formulaire
     setShowTable(true);
   };
 
-  const resetForm = () => {
-    setValue("employee", "");
-    setValue("type", "");
-    setValue("startDate", "");
-    setValue("endDate", "");
-  };
-
-  const handleNewRequest = () => {
-    setShowTable(false);
-  };
-
+  const handleNewRequest = () => setShowTable(false);
   const handleCancelRequest = () => {
+    reset();
     setShowTable(true);
-    resetForm();
   };
 
   const openModal = (id) => {
@@ -56,17 +57,21 @@ function Conger() {
   };
 
   const supp = () => {
-    setCongeés(Congeés.filter((leave) => leave.id !== currentLeaveId));
+    setCongeés((prevCongeés) => prevCongeés.filter((leave) => leave.id !== currentLeaveId));
     setDeleteMessage("La demande de congé a été supprimée avec succès !");
     closeModal();
   };
 
   const Approuver = (id) => {
-    setCongeés(Congeés.map(i => i.id === id ? { ...i, status: "Approuvé" } : i));
+    setCongeés((prevCongeés) =>
+      prevCongeés.map((leave) => leave.id === id ? { ...leave, status: "Approuvé" } : leave)
+    );
   };
 
   const Refuser = (id) => {
-    setCongeés(Congeés.map(i => i.id === id ? { ...i, status: "Rejeté" } : i));
+    setCongeés((prevCongeés) =>
+      prevCongeés.map((leave) => leave.id === id ? { ...leave, status: "Rejeté" } : leave)
+    );
   };
 
   return (
@@ -91,32 +96,36 @@ function Conger() {
               </tr>
             </thead>
             <tbody>
-              {Congeés.map((e) => (
-                <tr key={e.id}>
-                  <td>{e.employee}</td>
-                  <td>{e.type}</td>
-                  <td>{e.startDate}</td>
-                  <td>{e.endDate}</td>
-                  <td>{e.status}</td>
-                  <td>
-                    {(e.status === "Approuvé" || e.status === "Rejeté") && (
-                      <button className="btn" onClick={() => openModal(e.id)}>
-                        Supprimer
-                      </button>
-                    )}
-                    {e.status === "En attente" && (
-                      <>
-                        <button className="btn2" onClick={() => Approuver(e.id)}>
-                          <MdCheckCircle /> {/* Icône Approuver */}
-                        </button>
-                        <button className="btn2" onClick={() => Refuser(e.id)}>
-                          <MdCancel /> {/* Icône Refuser */}
-                        </button>
-                      </>
-                    )}
-                  </td>
+              {Congeés.length > 0 ? (
+                Congeés.map((e) => (
+                  <tr key={e.id}>
+                    <td>{e.employee}</td>
+                    <td>{e.type}</td>
+                    <td>{e.startDate}</td>
+                    <td>{e.endDate}</td>
+                    <td>{e.status}</td>
+                    <td>
+                      {(e.status === "Approuvé" || e.status === "Rejeté") && (
+                        <button className="btn" onClick={() => openModal(e.id)}>Supprimer</button>
+                      )}
+                      {e.status === "En attente" && (
+                        <>
+                          <button className="btn2" onClick={() => Approuver(e.id)}>
+                            <MdCheckCircle />
+                          </button>
+                          <button className="btn2" onClick={() => Refuser(e.id)}>
+                            <MdCancel />
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">Aucune demande de congé enregistrée.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </>
@@ -132,10 +141,7 @@ function Conger() {
           />
           {errors.employee && <p>{errors.employee.message}</p>}
 
-          <select
-            {...register("type", { required: "Sélectionner un type de congé" })}
-            className="form-input"
-          >
+          <select {...register("type", { required: "Sélectionner un type de congé" })} className="form-input">
             <option value="">Sélectionner un type de congé</option>
             <option value="Maladie">Maladie</option>
             <option value="Vacances">Vacances</option>
@@ -143,12 +149,12 @@ function Conger() {
             <option value="Autre">Autre</option>
           </select>
           {errors.type && <p>{errors.type.message}</p>}
-          
+
           <input
             type="date"
             {...register("startDate", { required: "La date de début est requise" })}
             className="form-input"
-            min={new Date().toISOString().split("T")[0]} // Cette ligne définit la date minimale sur aujourd'hui
+            min={new Date().toISOString().split("T")[0]}
           />
           {errors.startDate && <p>{errors.startDate.message}</p>}
 
@@ -156,10 +162,10 @@ function Conger() {
             type="date"
             {...register("endDate", {
               required: "La date de fin est requise",
-              validate: (value) => value >= startDate || "La date de fin doit être après la date de début"
+              validate: (value) => !startDate || value >= startDate || "La date de fin doit être après la date de début"
             })}
             className="form-input"
-            min={startDate}
+            min={startDate || new Date().toISOString().split("T")[0]}
             disabled={!startDate}
           />
           {errors.endDate && <p>{errors.endDate.message}</p>}
@@ -175,7 +181,7 @@ function Conger() {
         <div className="modal">
           <div className="modal-content">
             <p>Êtes-vous sûr de vouloir supprimer ce congé ?</p>
-              <div className="modal-actions">
+            <div className="modal-actions">
               <button className="btn-ajt" onClick={supp}>Confirmer</button>
               <button className="btn-annuler" onClick={closeModal}>Annuler</button>
             </div>
