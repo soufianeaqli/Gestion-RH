@@ -1,13 +1,13 @@
+/* Style de base de la navbar */
 .D1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    bottom: 10px;
     padding: 15px;
-    right: 18px;
     position: relative;
-    background-color: #3487da; 
+    background-color: #3487da;
+    z-index: 10; /* Assure que la navbar est au-dessus du contenu */
 }
 
 .T {
@@ -16,23 +16,23 @@
     font-size: 35px;
     padding: 7px;
     text-decoration: none;
-    font-weight: bold; 
+    font-weight: bold;
 }
 
 .a {
     display: flex;
-    gap: 35px; 
+    gap: 35px;
     align-items: center;
     justify-content: flex-start;
 }
 
 .c {
     color: rgb(200, 254, 254);
-    font-size: 18px; 
+    font-size: 18px;
     text-decoration: none;
-    transition: color 0.3s ease; 
+    transition: color 0.3s ease;
     position: relative;
-    margin-right:16px ;
+    margin-right: 16px;
 }
 
 .c:hover {
@@ -44,14 +44,98 @@
     font-weight: bold;
 }
 
+/* Suppression de l'effet hover sur le logo */
 .me img {
-    height: 55px;  /* Ajuste cette valeur pour agrandir le logo */
-    width: auto; 
+    height: 55px;
+    width: auto;
     position: relative;
     left: 7px;
-    color: white;  /* Maintient les proportions */
-    object-fit: contain; /* Évite la déformation */
-    transition: transform 0.3s ease; /* Animation fluide */
+    color: white;
+    object-fit: contain;
+    transition: transform 0.3s ease;
     transform: scale(1.4);
+    pointer-events: none; /* Désactive toute interaction sur le logo */
 }
 
+/* Navbar Slide pour petits écrans */
+.navbar-slide {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Masque le menu à gauche en début */
+    width: 250px; /* Largeur du menu */
+    height: 100%;
+    background-color: #3487da;
+    transition: left 0.3s ease; /* Animation fluide lors de l'ouverture/fermeture */
+    padding-top: 30px; /* Déplace le menu vers le haut en réduisant le padding-top */
+    z-index: 999; /* Assure que le menu est bien au-dessus du reste */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto; /* Permet le défilement si le contenu est plus long que l'écran */
+}
+
+/* Classe active qui déplace le menu vers la droite */
+.navbar-slide.open {
+    left: 0; /* Déplace le menu vers la droite, le rendant visible */
+}
+
+.navbar-slide a {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+/* Logo dans le slide menu */
+.navbar-slide .me img {
+    height: 40px; /* Réduit la taille du logo pour le menu slide */
+    width: auto;
+    position: relative;
+    left: 15px; /* Centrer le logo dans le menu slide */
+    margin-bottom: 20px;
+}
+
+/* Bouton de menu pour mobile/tablette */
+.menu-icon {
+    display: none; /* Caché par défaut */
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Responsive pour téléphones/tablettes */
+@media (max-width: 768px) {
+    .a {
+        display: none; /* Cacher les liens de navigation sur petits écrans */
+    }
+
+    .menu-icon {
+        display: block; /* Afficher le bouton de menu sur petits écrans */
+        width: 40px; /* Afficher le bouton de menu sur petits écrans */
+    }
+
+    /* Navbar Slide - logo visible dans le slide */
+    .navbar-slide .me {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .D1 {
+        justify-content: flex-start; /* Aligner le contenu à gauche */
+        padding: 15px 0; /* Ajuster le padding pour mieux positionner les éléments */
+    }
+
+    /* Suppression du logo de la navbar sur petits écrans */
+    .me {
+        display: none;
+    }
+}
+
+/* Désactive le menu slide pour les grands écrans */
+@media (min-width: 769px) {
+    .navbar-slide {
+        display: none; /* Cache le menu slide sur les grands écrans */
+    }
+}

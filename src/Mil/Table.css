@@ -1,3 +1,4 @@
+/* ✅ Rendre la disposition responsive */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -9,8 +10,7 @@
     padding-top: 2rem; /* Ajoute de l'espace en haut */
 }
 
-
-
+/* ✅ Carte */
 .card {
     border-radius: 8px;
     border: 3px solid #3487da; /* Bordure bleue */
@@ -85,4 +85,52 @@
 
 .mt-5 {
     margin-top: 3rem;
+}
+
+/* ✅ Responsive pour tablettes */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column; /* Empile les cartes verticalement sur tablette */
+        gap: 15px; /* Réduction de l'espace entre les cartes */
+    }
+
+    .card {
+        width: 100%; /* Occupe toute la largeur sur les tablettes */
+        max-width: 300px; /* Taille maximum légèrement réduite */
+        height: 300px; /* Ajuste la hauteur de la carte */
+    }
+
+    .card-text {
+        font-size: 2.5rem; /* Réduction de la taille du texte */
+    }
+
+    .container {
+        padding-top: 1.5rem; /* Moins d'espace en haut pour les tablettes */
+    }
+}
+
+/* ✅ Responsive pour téléphones */
+@media (max-width: 480px) {
+    .row {
+        flex-direction: column; /* Empile les cartes verticalement sur téléphone */
+        gap: 10px; /* Réduction de l'espace entre les cartes */
+    }
+
+    .card {
+        width: 100%; /* Chaque carte occupe la largeur complète */
+        max-width: 100%; /* Supprime la limitation de la largeur */
+        height: 250px; /* Ajuste la hauteur des cartes pour mieux tenir sur les petits écrans */
+    }
+
+    .card-title {
+        font-size: 1.2rem; /* Taille réduite pour petits écrans */
+    }
+
+    .card-text {
+        font-size: 2rem; /* Réduction de la taille du texte */
+    }
+
+    .container {
+        padding-top: 1rem; /* Moins de padding sur les téléphones */
+    }
 }

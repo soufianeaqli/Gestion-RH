@@ -23,6 +23,14 @@ function Conger() {
     localStorage.setItem("congees", JSON.stringify(Congeés));
   }, [Congeés]);
 
+  // Calcul de la durée entre startDate et endDate
+  const calculateDuration = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end - start);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Retourner la durée en jours
+  };
+
   // Ajouter un nouveau congé
   const onSubmit = (data) => {
     const newLeave = {
@@ -32,6 +40,7 @@ function Conger() {
       startDate: data.startDate,
       endDate: data.endDate,
       status: "En attente",
+      durée: calculateDuration(data.startDate, data.endDate), // Calcul de la durée
     };
 
     setCongeés([...Congeés, newLeave]);
@@ -83,13 +92,14 @@ function Conger() {
         <>
           <h1>Gestion des Congés</h1>
           <button className="btn1" onClick={handleNewRequest}>Nouvelle demande</button>
-          <table>
+          <table border={1}>
             <thead>
               <tr>
                 <th>Employé</th>
                 <th>Type</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
+                <th>Durée</th> {/* Colonne Durée */}
                 <th>Statut</th>
                 <th>Action</th>
               </tr>
@@ -102,6 +112,7 @@ function Conger() {
                     <td>{e.type}</td>
                     <td>{e.startDate}</td>
                     <td>{e.endDate}</td>
+                    <td>{e.durée} jours</td> {/* Affichage de la durée */}
                     <td>{e.status}</td>
                     <td>
                       {(e.status === "Approuvé" || e.status === "Rejeté") && (
