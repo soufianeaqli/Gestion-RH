@@ -27,7 +27,7 @@ function App() {
   const [candidaturesCount, setCandidaturesCount] = useState(0);
 
   const updateCandidaturesCount = (count) => {
-    setCandidaturesCount(count);  // Mettre à jour le compteur
+    setCandidaturesCount(count);
   };
 
   useEffect(() => {
