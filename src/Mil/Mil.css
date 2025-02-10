@@ -106,7 +106,20 @@ td {
   height: 22px;
   color: red;
 }
+@media (max-width: 780px) {
+  .table-container {
+      padding: 8px;
+  }
 
+  th, td {
+      font-size: 0.8rem;
+      padding: 8px;
+  }
+
+  .nav a {
+      font-size: 0.9rem;
+  }
+}
 
 
 
@@ -576,6 +589,78 @@ a.download-cv:hover {
 a.download-cv:active {
   background-color: #004085; /* Bleu encore plus foncé au clic */
   transform: scale(0.98); /* Légère réduction au clic */
+}
+/* Styles pour la navbar en mode normal (desktop) */
+.D1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
+    background-color: #3487da;
+}
+
+/* Container du menu */
+.a {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Liens */
+.c {
+    color: rgb(200, 254, 254);
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-right: 16px;
+}
+
+.c:hover {
+    color: lightgray;
+}
+
+/* Logo */
+.me img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    transform: scale(1.4);
+}
+
+/* 📱 Mode Responsive (Mobile) */
+@media screen and (max-width: 768px) {
+    .D1 {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .T {
+        font-size: 28px; /* Réduction du titre */
+    }
+
+    .a {
+        flex-direction: column;
+        gap: 15px; /* Réduit l'écart entre les liens */
+        display: none; /* Cache le menu par défaut */
+    }
+
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: none;
+        padding: 5px;
+    }
+
+    .a.open {
+        display: flex;
+    }
 }
 
 

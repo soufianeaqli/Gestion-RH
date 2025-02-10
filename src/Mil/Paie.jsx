@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import "./Mil.css";
+import React, { useState, useEffect } from "react";
+import './Mil.css';
 
-function Paie({ employees }) {
-  const [pai, setPai] = useState(employees);
+function Paie({ employees, updateEmployee }) {
+  const [pai, setPai] = useState([]);
+
+  // 🟢 Synchroniser `pai` avec `employees`
+  useEffect(() => {
+    setPai(employees);
+  }, [employees]);
+
   const [isEditSalaire, setIsEditSalaire] = useState(false);
   const [editedSalaire, setEditedSalaire] = useState({
     id: '',
@@ -12,27 +18,32 @@ function Paie({ employees }) {
     totalSalaire: ''
   });
 
+  // 🟢 Ouvrir la modale avec les infos actuelles
   const Modifier = (id) => {
     const salaireEdit = pai.find((sal) => sal.id === id);
     setEditedSalaire(salaireEdit);
     setIsEditSalaire(true);
   };
 
+  // 🟢 Mettre à jour le salaire en direct
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const updatedSalaire = { ...editedSalaire, [name]: value };
+    setEditedSalaire(prevState => {
+      const updated = { ...prevState, [name]: value };
 
-    if (name === "salaire" || name === "prime") {
-      const salaire = parseFloat(updatedSalaire.salaire) || 0;
-      const prime = parseFloat(updatedSalaire.prime) || 0;
-      updatedSalaire.totalSalaire = salaire + prime;
-    }
+      if (name === "salaire" || name === "prime") {
+        const salaire = parseFloat(updated.salaire) || 0;
+        const prime = parseFloat(updated.prime) || 0;
+        updated.totalSalaire = salaire + prime;
+      }
 
-    setEditedSalaire(updatedSalaire);
+      return updated;
+    });
   };
 
+  // 🟢 Sauvegarder les changements et mettre à jour globalement
   const handleSave = () => {
-    setPai(pai.map((sal) => (sal.id === editedSalaire.id ? editedSalaire : sal)));
+    updateEmployee(editedSalaire);
     setIsEditSalaire(false);
   };
 
@@ -50,8 +61,8 @@ function Paie({ employees }) {
           </tr>
         </thead>
         <tbody>
-          {pai.map((e, i) => (
-            <tr key={i}>
+          {pai.map((e) => (
+            <tr key={e.id}>
               <td>{e.name}</td>
               <td>{e.salaire} dh</td>
               <td>{e.prime} dh</td>
@@ -66,7 +77,6 @@ function Paie({ employees }) {
         </tbody>
       </table>
 
-      {/* Modale de modification du salaire */}
       {isEditSalaire && (
         <div className="modal">
           <div className="modal-content">

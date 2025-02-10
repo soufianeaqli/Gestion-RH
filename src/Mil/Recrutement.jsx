@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
-import { candidatures } from './Data';
-import Notification from './Notification/Notification'; // Import the Notification component
+import React, { useState, useEffect } from 'react';
+import Notification from './Notification/Notification';
 
-function Recrutement() {
-    const [candidats, setCandidats] = useState(candidatures);
+function Recrutement({ updateCandidaturesCount }) {
+    const [candidats, setCandidats] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [currentId, setCurrentId] = useState(null);
     const [newCandidat, setNewCandidat] = useState({ nom: "", poste: "", cv: "" });
     const [editedCandidat, setEditedCandidat] = useState({ id: "", nom: "", poste: "", cv: "" });
-    const [errorMessage, setErrorMessage] = useState(''); // State for error message
+    const [errorMessage, setErrorMessage] = useState('');
+
+    // Charger les candidatures depuis localStorage au démarrage
+    useEffect(() => {
+        const storedCandidats = JSON.parse(localStorage.getItem('candidats')) || [];
+        setCandidats(storedCandidats);
+        updateCandidaturesCount(storedCandidats.length); // Mettre à jour le nombre de candidatures
+    }, []);
+
+    // Sauvegarder les candidatures dans localStorage à chaque mise à jour
+    useEffect(() => {
+        if (candidats.length > 0) {
+            localStorage.setItem('candidats', JSON.stringify(candidats));
+            updateCandidaturesCount(candidats.length); // Mettre à jour le compteur
+        }
+    }, [candidats]);
 
     const openEditModal = (id) => {
         const candidatToEdit = candidats.find((cand) => cand.id === id);
@@ -24,33 +38,38 @@ function Recrutement() {
     };
 
     const handleDelete = () => {
-        setCandidats(candidats.filter((cand) => cand.id !== currentId));
+        const updatedCandidats = candidats.filter((cand) => cand.id !== currentId);
+        setCandidats(updatedCandidats);
         setIsModalOpen(false);
     };
 
     const handleAddCandidat = () => {
-        if (newCandidat.nom === "" || newCandidat.poste === "" || newCandidat.cv === "") {
+        if (!newCandidat.nom || !newCandidat.poste || !newCandidat.cv) {
             setErrorMessage("Tous les champs doivent être remplis.");
             return;
         }
 
         const newId = candidats.length ? candidats[candidats.length - 1].id + 1 : 1;
-        setCandidats([...candidats, { ...newCandidat, id: newId }]);
+        const updatedCandidats = [...candidats, { ...newCandidat, id: newId }];
+        setCandidats(updatedCandidats);
         setIsAddModalOpen(false);
         setNewCandidat({ nom: "", poste: "", cv: "" });
-        setErrorMessage(''); // Clear error message on success
+        setErrorMessage('');
     };
 
     const handleEditCandidat = () => {
-        if (editedCandidat.nom === "" || editedCandidat.poste === "" || editedCandidat.cv === "") {
+        if (!editedCandidat.nom || !editedCandidat.poste || !editedCandidat.cv) {
             setErrorMessage("Tous les champs doivent être remplis.");
             return;
         }
 
-        setCandidats(candidats.map((cand) => (cand.id === editedCandidat.id ? editedCandidat : cand)));
+        const updatedCandidats = candidats.map((cand) =>
+            cand.id === editedCandidat.id ? editedCandidat : cand
+        );
+        setCandidats(updatedCandidats);
         setIsEditModalOpen(false);
         setEditedCandidat({ id: "", nom: "", poste: "", cv: "" });
-        setErrorMessage(''); // Clear error message on success
+        setErrorMessage('');
     };
 
     const handleFileChange = (e, type) => {
@@ -112,29 +131,24 @@ function Recrutement() {
                 <div className="modal">
                     <div className="modal-content">
                         <h2>Ajouter une Candidature</h2>
-                        <input 
-                            type="text" 
-                            placeholder="Nom" 
-                            value={newCandidat.nom} 
-                            onChange={(e) => setNewCandidat({ ...newCandidat, nom: e.target.value })} 
+                        <input
+                            type="text"
+                            placeholder="Nom"
+                            value={newCandidat.nom}
+                            onChange={(e) => setNewCandidat({ ...newCandidat, nom: e.target.value })}
                         />
-                        <input 
-                            type="text" 
-                            placeholder="Poste" 
-                            value={newCandidat.poste} 
-                            onChange={(e) => setNewCandidat({ ...newCandidat, poste: e.target.value })} 
+                        <input
+                            type="text"
+                            placeholder="Poste"
+                            value={newCandidat.poste}
+                            onChange={(e) => setNewCandidat({ ...newCandidat, poste: e.target.value })}
                         />
                         <label className="file-upload">
                             Choisir un fichier
-                            <input 
-                                type="file" 
-                                onChange={(e) => handleFileChange(e, "add")} 
-                            />
+                            <input type="file" onChange={(e) => handleFileChange(e, "add")} />
                         </label>
                         <button className="btn-ajt" onClick={handleAddCandidat}>Ajouter</button>
-                        {errorMessage && (
-                            <Notification message={errorMessage} onClose={() => setErrorMessage('')} />
-                        )}
+                        {errorMessage && <Notification message={errorMessage} onClose={() => setErrorMessage('')} />}
                         <button className="btn-annuler" onClick={() => setIsAddModalOpen(false)}>Annuler</button>
                     </div>
                 </div>
@@ -145,30 +159,21 @@ function Recrutement() {
                 <div className="modal">
                     <div className="modal-content">
                         <h2>Modifier une Candidature</h2>
-                        <input 
-                            type="text" 
-                            placeholder="Nom" 
-                            value={editedCandidat.nom} 
-                            onChange={(e) => setEditedCandidat({ ...editedCandidat, nom: e.target.value })} 
+                        <input
+                            type="text"
+                            placeholder="Nom"
+                            value={editedCandidat.nom}
+                            onChange={(e) => setEditedCandidat({ ...editedCandidat, nom: e.target.value })}
                         />
-                        <input 
-                            type="text" 
-                            placeholder="Poste" 
-                            value={editedCandidat.poste} 
-                            onChange={(e) => setEditedCandidat({ ...editedCandidat, poste: e.target.value })} 
-                        />
-                        <input 
-                            type="text" 
-                            placeholder="CV (nom du fichier)" 
-                            value={editedCandidat.cv} 
-                            onChange={(e) => setEditedCandidat({ ...editedCandidat, cv: e.target.value })} 
+                        <input
+                            type="text"
+                            placeholder="Poste"
+                            value={editedCandidat.poste}
+                            onChange={(e) => setEditedCandidat({ ...editedCandidat, poste: e.target.value })}
                         />
                         <label className="file-upload">
                             Choisir un fichier
-                            <input 
-                                type="file" 
-                                onChange={(e) => handleFileChange(e, "edit")} 
-                            />
+                            <input type="file" onChange={(e) => handleFileChange(e, "edit")} />
                         </label>
                         <div className="modal-actions">
                             <button className="btn-edit" onClick={handleEditCandidat}>Modifier</button>
