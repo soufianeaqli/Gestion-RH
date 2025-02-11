@@ -1,0 +1,680 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://www.antipixel.com/wp-content/uploads/2022/06/visuel-6-tableaux-de-bord-essentiels-pour-la-gestion-des-ressources-humaines.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.table-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    max-width: 95%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: rgba(0, 166, 255, 0.8);
+}
+
+th {
+    padding: 12px;
+    color: rgb(255, 255, 255);
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+tbody {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    color: white;
+}
+.btn2 {
+  border: none;
+  background-color: transparent !important; /* Force la transparence */
+  cursor: pointer;
+  top: 10px;
+  margin: 0 5px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn2 {
+  border: none;
+  background-color: transparent !important; /* Force la transparence */
+  cursor: pointer;
+  padding: 5px; /* Réduction de l'espace entre les boutons */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Empêcher tout changement de fond au hover */
+.btn2:hover {
+  background-color: transparent !important;
+  transform: scale(1.1); /* Effet de zoom léger */
+}
+
+.btn2:first-of-type svg {
+  width: 26px;  
+  height: 26px;
+  color: rgb(25, 253, 25);
+}
+.btn2:last-of-type svg {
+  width: 24px;
+  height: 22px;
+  color: red;
+}
+@media (max-width: 780px) {
+  .table-container {
+      padding: 8px;
+  }
+
+  th, td {
+      font-size: 0.8rem;
+      padding: 8px;
+  }
+
+  .nav a {
+      font-size: 0.9rem;
+  }
+}
+
+
+
+.btn1 {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, rgb(17, 218, 218), rgb(10, 170, 170));
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn1:hover {
+    background: linear-gradient(135deg, rgb(10, 170, 170), rgb(17, 218, 218));
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn1:active {
+    transform: scale(0.95);
+}
+/* Modale simple et épurée */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Fond sombre légèrement transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+  
+  .modal-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-around;
+  }
+  /* Formulaire */
+  .leave-form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;  /* Limiter la largeur du formulaire */
+    width: 100%; /* S'adapte à différentes tailles d'écran */
+    margin: 50px auto 0; /* Centrer horizontalement et ajouter un espacement vers le haut */
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+}
+
+  
+  .leave-form:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .form-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .form-label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555;
+    display: block;
+    font-weight: 600;
+    text-align: left; /* Aligner à gauche */
+  }
+  
+  .form-input {
+    display: block;
+    width: 100%;  /* Utiliser la pleine largeur du parent */
+    max-width: 400px; /* Limiter la largeur des champs */
+    padding: 12px 15px;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    border-color: #007bff;
+    background-color: #e7f1ff;
+    outline: none;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Augmenter l'écart entre les boutons */
+  }
+  
+  .form-button-submit,
+  .form-button-cancel {
+    padding: 12px 25px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .form-button-submit {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .form-button-submit:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+  
+  .form-button-cancel {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .form-button-cancel:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+  }
+  
+  .form-button-submit:active, .form-button-cancel:active {
+    transform: translateY(2px);
+  }
+  
+  .form-input,
+  .form-button-submit,
+  .form-button-cancel {
+    transition: transform 0.2s ease;
+  }
+  /* Style du formulaire d'ajout d'employé */
+.modal-content input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .modal-content input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  /* Titres du formulaire */
+  .modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Texte d'instruction ou description */
+  .modal-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+  }  /* Gestion de la largeur du formulaire */
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .btn3 {
+    background-color: #19a2f8; /* Bleu ciel */
+    color: white;
+    padding: 10px 20px; /* Taille du bouton */
+    font-size: 16px; /* Taille du texte */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: block;
+    width: auto; /* Ne prend que l'espace nécessaire */
+    margin: 20px auto; /* Centré entre le titre et le tableau */
+}
+
+.btn3:hover {
+    background-color: #4682B4; /* Bleu plus foncé au survol */
+    transform: scale(1.05); /* Effet de zoom */
+}
+
+.btn3:active {
+    background-color: #5F9EA0; /* Autre bleu lors du clic */
+    transform: scale(1);
+}
+
+.btn3:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.6); /* Ombre autour du bouton au focus */
+}
+.btn4 {
+    background-color: #4CAF50; /* Couleur verte */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn4:hover {
+    background-color: #45a049; /* Couleur un peu plus foncée pour l'effet hover */
+    transform: scale(1.05); /* Agrandir légèrement le bouton au survol */
+  }
+  
+  .btn4:active {
+    background-color: #3e8e41; /* Couleur encore plus foncée quand on clique */
+    transform: scale(1); /* Retour à la taille normale après le clic */
+  }
+  /* btn (bouton d'action principal) */
+  .btn {
+    background-color: #ff4136; /* Rouge vif */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Taille réduite pour un bouton de taille moyenne */
+    font-size: 0.9rem; /* Police de taille moyenne */
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: inline-block; /* Aligner avec d'autres éléments inline */
+    margin: 10px;
+}
+
+/* Hover effect */
+.btn:hover {
+    background-color: #e03131; /* Rouge plus foncé */
+    transform: translateY(-2px); /* Léger soulèvement */
+}
+
+/* Active effect */
+.btn:active {
+    background-color: #c82333; /* Rouge plus foncé lors du clic */
+    transform: translateY(2px); /* Légèrement appuyé lors du clic */
+}
+
+/* Focus effect */
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(248, 0, 0, 0.3); /* Ombre autour du bouton */
+}
+
+/* btn4 (bouton secondaire) */
+.btn4 {
+    background-color: #4CAF50; /* Vert vif */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Taille réduite pour un bouton de taille moyenne */
+    text-align: center;
+    font-size: 0.9rem; /* Police de taille moyenne */
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    margin: 10px;
+}
+
+/* Hover effect */
+.btn4:hover {
+    background-color: #45a049; /* Vert légèrement plus foncé */
+    transform: translateY(-2px); /* Légèrement soulevé */
+}
+
+/* Active effect */
+.btn4:active {
+    background-color: #3e8e41; /* Vert encore plus foncé */
+    transform: translateY(2px); /* Effet de compression */
+}
+
+/* Focus effect */
+.btn4:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.3); /* Ombre bleue pour focus */
+}
+
+.btn, .btn4 {
+  padding: 5px;
+  font-size: 12px;
+  width: 80px;
+  height: 35px; /* Réduit la largeur des boutons */
+}
+th:nth-child(5), td:nth-child(5) {
+  width: 340px; /* Ajuste cette valeur selon ton besoin */
+  text-align: center;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* Aligner à droite */
+  gap: 10px; /* Réduit l'espace entre les boutons */
+  padding: 10px; /* Ajuste l'espacement interne */
+}
+/* Bouton de suppression */
+.btn-sup {
+  background-color: #e74c3c; /* Rouge vif */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.btn-sup:hover {
+  background-color: #c0392b; 
+  transform: scale(1.05);
+}
+
+/* Bouton d'annulation */
+.btn-cancel {
+  background-color: #bdc3c7be; 
+  color: #fcfcfc; 
+  border: none;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #95a5a6;
+}
+.btn-edit {
+  background-color: rgb(10, 231, 10); 
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.btn-edit:hover {
+  background-color: #218838; /* Bleu plus foncé au survol */
+}
+.btn-ajt {
+  background-color: #4CAF50; /* Couleur verte pour attirer l'attention */
+  color: white;
+  padding: 12px 20px; /* Taille confortable du bouton */
+  font-size: 1rem; /* Taille de texte adaptée */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transition douce */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre pour effet visuel */
+  display: inline-block;
+  margin: 10px 15px 10px 0; /* Augmenter l'espace entre les boutons */
+}
+
+.btn-annuler {
+  background-color: #f44336; /* Rouge pour indiquer une action d'annulation */
+  color: white;
+  padding: 12px 20px; /* Taille similaire au bouton d'ajout */
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  margin: 10px 0; /* Un peu d'espace autour du bouton */
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 20px;
+  width: 90%;
+  height: 45px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.file-upload:hover {
+  background: #0056b3;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+a.download-cv {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007bff; /* Bleu simple et professionnel */
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid transparent; /* Bordure subtile */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a.download-cv:hover {
+  background-color: #0056b3; /* Bleu légèrement plus foncé au survol */
+  border-color: #0056b3; /* Bordure qui devient bleue au survol */
+}
+
+a.download-cv:active {
+  background-color: #004085; /* Bleu encore plus foncé au clic */
+  transform: scale(0.98); /* Légère réduction au clic */
+}
+/* Styles pour la navbar en mode normal (desktop) */
+.D1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
+    background-color: #3487da;
+}
+
+/* Container du menu */
+.a {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Liens */
+.c {
+    color: rgb(200, 254, 254);
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-right: 16px;
+}
+
+.c:hover {
+    color: lightgray;
+}
+
+/* Logo */
+.me img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    transform: scale(1.4);
+}
+
+/* 📱 Mode Responsive (Mobile) */
+@media screen and (max-width: 768px) {
+    .D1 {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .T {
+        font-size: 28px; /* Réduction du titre */
+    }
+
+    .a {
+        flex-direction: column;
+        gap: 15px; /* Réduit l'écart entre les liens */
+        display: none; /* Cache le menu par défaut */
+    }
+
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: none;
+        padding: 5px;
+    }
+
+    .a.open {
+        display: flex;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+  
+  
