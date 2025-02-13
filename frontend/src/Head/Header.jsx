@@ -3,7 +3,7 @@ import './Header.css';
 import Logo from './Capture_d_écran_2025-02-08_145637-removebg-preview.png';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null); // Référence au menu pour vérifier si un clic est à l'extérieur
 
@@ -40,19 +40,23 @@ function Header() {
       </div>
 
       {/* Navbar slide */}
-      <div ref={menuRef} className={`navbar-slide ${isOpen ? 'open' : ''}`}>
-        <div className="me">
-          <Link to="/" className="T">
-            <img src={Logo} alt="Logo" className="logo" />
-          </Link>
-        </div>
-        <Link className="c" to="/">Tableau de Bord</Link>
-        <Link className="c" to="/empl">Employés</Link>
-        <Link className="c" to="/rec">Recrutement</Link>
-        <Link className="c" to="/pai">Paie</Link>
-        <Link className="c" to="/con">Congés</Link>
-        <Link className="c" to="/uti">Utilisateurs</Link>
-      </div>
+<div ref={menuRef} className={`navbar-slide ${isOpen ? 'open' : ''}`}>
+  <div className="me">
+    <Link to="/" className="T">
+      <img src={Logo} alt="Logo" className="logo" />
+    </Link>
+  </div>
+  <Link className="c" to="/">Tableau de Bord</Link>
+  <Link className="c" to="/empl">Employés</Link>
+  <Link className="c" to="/rec">Recrutement</Link>
+  <Link className="c" to="/pai">Paie</Link>
+  <Link className="c" to="/con">Congés</Link>
+  <Link className="c" to="/uti">Utilisateurs</Link>
+
+  {/* Bouton de déconnexion dans le menu slide (visible uniquement en responsive) */}
+  <button onClick={onLogout} className="btn-logout-mobile">Déconnexion</button>
+</div>
+
 
       {/* Navigation principale (visible sur grands écrans) */}
       <div className="a">
@@ -63,6 +67,8 @@ function Header() {
         <Link className="c" to="/con">Congés</Link>
         <Link className="c" to="/uti">Utilisateurs</Link>
       </div>
+
+      <button onClick={onLogout} className="btn-logout">Déconnexion</button>
     </div>
   );
 }

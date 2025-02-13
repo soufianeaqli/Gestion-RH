@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import './Mil.css';
+import axios from "axios";
+import Loading from '../components/Loading';
 
-function Paie({ employees, updateEmployee }) {
+function Paie({ employees, loadingEmployees, updateEmployee }) {
   const [pai, setPai] = useState([]);
+  const [processing, setProcessing] = useState(false);
 
-  // 🟢 Synchroniser `pai` avec `employees`
+  // Synchroniser `pai` avec les employés
   useEffect(() => {
     setPai(employees);
   }, [employees]);
@@ -43,39 +46,50 @@ function Paie({ employees, updateEmployee }) {
 
   // 🟢 Sauvegarder les changements et mettre à jour globalement
   const handleSave = () => {
-    updateEmployee(editedSalaire);
-    setIsEditSalaire(false);
+    axios.put(`http://localhost:8000/api/employees/${editedSalaire.id}`, editedSalaire)
+      .then(response => {
+         updateEmployee(response.data);
+         setTimeout(() => { setProcessing(false); }, 500);
+      })
+      .catch(error => {
+         console.error("Erreur lors de la mise à jour du salaire", error.response?.data || error);
+         setTimeout(() => { setProcessing(false); }, 500);
+      });
   };
 
   return (
     <div>
       <h1>Tableau des Salaires</h1>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Employé</th>
-            <th>Salaire</th>
-            <th>Prime</th>
-            <th>Total Salaire</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pai.map((e) => (
-            <tr key={e.id}>
-              <td>{e.name}</td>
-              <td>{e.salaire} dh</td>
-              <td>{e.prime} dh</td>
-              <td>{e.totalSalaire} dh</td>
-              <td>
-                <button className="btn4" onClick={() => Modifier(e.id)}>
-                  Modifier
-                </button>
-              </td>
+      {loadingEmployees || processing ? (
+        <Loading message={processing ? "Sauvegarde en cours..." : "Chargement des salaires..."} />
+      ) : (
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Employé</th>
+              <th>Salaire</th>
+              <th>Prime</th>
+              <th>Total Salaire</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {pai.map((e) => (
+              <tr key={e.id}>
+                <td>{e.name}</td>
+                <td>{e.salaire} dh</td>
+                <td>{e.prime} dh</td>
+                <td>{e.totalSalaire} dh</td>
+                <td>
+                  <button className="btn-edit" onClick={() => Modifier(e.id)}>
+                    Modifier
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {isEditSalaire && (
         <div className="modal">
@@ -96,7 +110,15 @@ function Paie({ employees, updateEmployee }) {
               onChange={handleInputChange}
             />
             <div className="modal-actions">
-              <button className="btn-edit" onClick={handleSave}>
+              <button 
+                className="btn-edit"
+                onClick={() => {
+                  // Masquer immédiatement le formulaire de modification
+                  setIsEditSalaire(false);
+                  setProcessing(true);
+                  handleSave();
+                }}
+              >
                 Modifier
               </button>
               <button

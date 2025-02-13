@@ -16,20 +16,25 @@ class CandidatController extends Controller
     // 🔹 Ajouter un candidat
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
+        // Validation avec règles pour le fichier
+        $validatedData = $request->validate([
+            'nom'   => 'required|string|max:255',
             'poste' => 'required|string|max:255',
-            'cv' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'cv'    => 'required|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
-        // Stocker le fichier
-        $cvPath = $request->file('cv')->store('cvs');
+        if ($request->hasFile('cv')) {
+            $file = $request->file('cv');
+            // Crée un nom unique pour le fichier
+            $filename = time() . '_' . $file->getClientOriginalName();
+            // Déplace le fichier dans le dossier public/cv
+            $file->move(public_path('cv'), $filename);
+            // Remplace la valeur 'cv' par le nom du fichier enregistré
+            $validatedData['cv'] = $filename;
+        }
 
-        $candidat = Candidat::create([
-            'nom' => $request->nom,
-            'poste' => $request->poste,
-            'cv' => $cvPath,
-        ]);
+        // Crée le candidat en base de données
+        $candidat = Candidat::create($validatedData);
 
         return response()->json($candidat, 201);
     }
@@ -45,26 +50,32 @@ class CandidatController extends Controller
     {
         $candidat = Candidat::findOrFail($id);
 
-        $request->validate([
-            'nom' => 'string|max:255',
-            'poste' => 'string|max:255',
-            'cv' => 'file|mimes:pdf,doc,docx|max:2048',
+        $validatedData = $request->validate([
+            'nom'   => 'sometimes|string|max:255',
+            'poste' => 'sometimes|string|max:255',
+            'cv'    => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
         if ($request->hasFile('cv')) {
-            // Supprimer l'ancien CV
-            Storage::delete($candidat->cv);
-            $cvPath = $request->file('cv')->store('cvs');
+            // Optionnel : supprimer l'ancien CV (adapté selon votre logique)
+            // Si votre ancien CV se trouve dans public/cv, vous pouvez le supprimer :
+            if ($candidat->cv) {
+                $oldFilePath = public_path('cv') . '/' . $candidat->cv;
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+            }
+
+            $file = $request->file('cv');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('cv'), $filename);
+            $validatedData['cv'] = $filename;
         } else {
-            $cvPath = $candidat->cv;
+            // Si aucun nouveau fichier n'est envoyé, on ne modifie pas la valeur de cv
+            unset($validatedData['cv']);
         }
 
-        $candidat->update([
-            'nom' => $request->nom ?? $candidat->nom,
-            'poste' => $request->poste ?? $candidat->poste,
-            'cv' => $cvPath,
-        ]);
-
+        $candidat->update($validatedData);
         return response()->json($candidat, 200);
     }
 

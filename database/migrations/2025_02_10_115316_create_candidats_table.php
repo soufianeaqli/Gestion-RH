@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('candidats', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('name'); // Candidate's name
+            $table->string('nom'); // Candidate's name
             $table->string('poste'); // Position for which the candidate is applying
             $table->string('cv'); // CV file path (store CV in file system or URL)
             $table->timestamps(); // Created at and updated at timestamps

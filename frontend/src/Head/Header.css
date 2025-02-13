@@ -56,6 +56,23 @@
     transform: scale(1.4);
     pointer-events: none; /* Désactive toute interaction sur le logo */
 }
+.btn-logout {
+    background-color: #f51717;
+    width: 100px;
+    height: 30px;
+    position: relative;
+    right: 40px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.btn-logout:hover {
+    transform: scale(1.05);
+    background-color: #ae0909;
+}
 
 /* Navbar Slide pour petits écrans */
 .navbar-slide {
@@ -139,3 +156,38 @@
         display: none; /* Cache le menu slide sur les grands écrans */
     }
 }
+.btn-logout-mobile {
+    background-color: #f51717;
+    width: 60%;
+    height: 40px;
+    position: relative;
+    left: 15px;
+    margin: 20px 0;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-logout-mobile:hover {
+    background-color: #ae0909;
+    transform: scale(1.05);
+  }
+  
+  /* Cache le bouton principal de déconnexion en responsive */
+  @media (max-width: 768px) {
+    .btn-logout {
+      display: none;
+    }
+  }
+  
+  /* Style supplémentaire pour le slide en responsive */
+  .navbar-slide {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 20px;
+  }
+  

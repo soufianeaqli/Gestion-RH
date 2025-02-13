@@ -1,0 +1,290 @@
+/* Centrage parfait de la page */
+.login-page-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Style de la boîte de connexion */
+  .login-box {
+    width: 480px;
+    background: rgb(10, 182, 244);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Animation d'entrée */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+ /* Champs de formulaire avec espacement amélioré */
+.form-floating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px; /* Ajoute un espace entre le label et l'input */
+    margin-bottom: 16px; /* Ajoute un espace entre les champs */
+  }
+  
+  .form-floating label {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 5px; /* Assure un bon espacement */
+  }
+  
+  .form-floating input {
+    width: 90%;
+    padding: 12px;
+    border-radius: 13px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+  }
+  
+  
+  /* Mot de passe avec bouton affichage */
+  .password-container {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  /* Bouton de connexion */
+  .btn-primary {
+    background: #145da0;
+    border: none;
+    padding: 12px;
+    font-size: 18px;
+    width: 50%;
+    height: 45px;
+    border-radius: 5px;
+    color: #fff;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    background: #0e4c8c;
+  }
+  
+  /* Lien "Mot de passe oublié" */
+  .text-muted {
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .text-muted:hover {
+    color: #555;
+  }
+  
+  /* Lien inscription */
+  .text-center a {
+    color: #145da0;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .text-center a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Notification d'erreur */
+  .error-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 9999;
+    font-size: 16px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    animation: fadeOut 3s ease-in-out forwards;
+  }
+  
+  /* Animation disparition erreur */
+  @keyframes fadeOut {
+    0%, 80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 480px) {
+    .login-box {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .btn-primary {
+      font-size: 16px;
+    }
+  }
+  /* Centrage parfait de la page */
+.register-page-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Style de la boîte d'inscription */
+  .register-box {
+    width: 480px;
+    background: rgb(10, 182, 244);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Animation d'entrée */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Champs de formulaire avec espacement amélioré */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px; /* Ajoute un espace entre le label et l'input */
+    margin-bottom: 16px; /* Ajoute un espace entre les champs */
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    width: 90%;
+    padding: 12px;
+    border-radius: 13px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+  }
+  
+  /* Bouton d'inscription */
+  .btn-primary {
+    background: #145da0;
+    border: none;
+    padding: 12px;
+    font-size: 18px;
+    width: 45%;
+    border-radius: 5px;
+    color: #fff;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    background: #0e4c8c;
+  }
+  
+  /* Lien de connexion */
+  .text-center a {
+    color: #145da0;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .text-center a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Notification d'erreur */
+  .error-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 9999;
+    font-size: 16px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    animation: fadeOut 3s ease-in-out forwards;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 480px) {
+    .register-box {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .btn-primary {
+      font-size: 16px;
+    }
+  }
+  
+.success-notification, .error-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.success-notification {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error-notification {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+  

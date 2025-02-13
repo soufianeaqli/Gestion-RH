@@ -4,16 +4,25 @@ import axios from "axios";
 import { MdCheckCircle, MdCancel } from "react-icons/md";
 import Notification from "./Notification/Notification";
 import useLocalStorage from "./Uselocalstorage";
+import Loading from '../components/Loading';
 
 function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPendingLeavesCount` passée par le parent
   const [congees, setCongees] = useLocalStorage(
     "congees", []
   );
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios.get("http://localhost:8000/api/congees")
     .then(response => {
       setCongees(response.data);
+      setPendingLeavesCount(response.data.filter(leave => leave.status === "En attente").length);
+      setLoading(false);
     })
+    .catch(error => {
+      console.error("Erreur lors de la récupération des congés", error);
+      setLoading(false);
+    });
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,11 +36,12 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
   // Sauvegarde dans localStorage et mise à jour du compteur de congés en attente
   useEffect(() => {
     localStorage.setItem("congees", JSON.stringify(congees));
-
-    // Calcul du nombre de congés en attente
     const pendingCount = congees.filter(leave => leave.status === "En attente").length;
-    setPendingLeavesCount(pendingCount);  // Mettre à jour le compteur dans le parent
+    setPendingLeavesCount(pendingCount);
   }, [congees, setPendingLeavesCount]);
+
+  // Etat local pour les opérations asynchrones
+  const [processing, setProcessing] = useState(false);
 
   // Fonction pour calculer la durée entre la date de début et la date de fin
   const calculateDuration = (startDate, endDate) => {
@@ -52,16 +62,18 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
       status: "En attente",
       duree: calculateDuration(data.startDate, data.endDate),
     };
+    setProcessing(true);
     axios.post("http://localhost:8000/api/congees", newLeave)
-    .then(response => {
-      setCongees([...congees, response.data]);
-      reset();
-      setShowTable(true);
-    })
-    .catch(error => {
-      console.error("Erreur lors de la création du congé", error);
-    });
-    
+      .then(response => {
+        setCongees([...congees, response.data]);
+        reset();
+        setShowTable(true);
+        setTimeout(() => { setProcessing(false); }, 500);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la création du congé", error);
+        setTimeout(() => { setProcessing(false); }, 500);
+      });
   };
 
   const handleNewRequest = () => setShowTable(false);
@@ -81,40 +93,49 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
   };
 
   const deleteLeave = () => {
+    setProcessing(true);
     axios.delete(`http://localhost:8000/api/congees/${currentLeaveId}`)
-    .then(() => {
-      setCongees(congees.filter((leave) => leave.id !== currentLeaveId));
-      setDeleteMessage("La demande de congé a été supprimée avec succès !");
-      closeModal();
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la suppression du congé", error);
-    });
+      .then(() => {
+        setCongees(congees.filter((leave) => leave.id !== currentLeaveId));
+        setDeleteMessage("La demande de congé a été supprimée avec succès !");
+        closeModal();
+        setTimeout(() => { setProcessing(false); }, 500);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppression du congé", error);
+        setTimeout(() => { setProcessing(false); }, 500);
+      });
   };
 
   const approveLeave = (id) => {
+    setProcessing(true);
     axios.put(`http://localhost:8000/api/congees/${id}`, { status: "Approuvé" })
       .then(response => {
          const updatedCongees = congees.map(leave =>
            leave.id === id ? response.data : leave
          );
          setCongees(updatedCongees);
+         setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
          console.error("Erreur lors de l'approbation de la demande", error);
+         setTimeout(() => { setProcessing(false); }, 500);
       });
   };
 
   const rejectLeave = (id) => {
+    setProcessing(true);
     axios.put(`http://localhost:8000/api/congees/${id}`, { status: "Rejeté" })
       .then(response => {
          const updatedCongees = congees.map(leave =>
            leave.id === id ? response.data : leave
          );
          setCongees(updatedCongees);
+         setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
          console.error("Erreur lors du rejet de la demande", error);
+         setTimeout(() => { setProcessing(false); }, 500);
       });
   };
 
@@ -126,103 +147,116 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
 
       <h1>Gestion des Congés </h1>
 
-      {showTable ? (
-        <>
-          <button className="btn1" onClick={handleNewRequest}>Nouvelle demande</button>
-          <table border={1}>
-            <thead>
-              <tr>
-                <th>Employé</th>
-                <th>Type</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Durée (jours)</th>
-                <th>Statut</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {congees.length > 0 ? (
-                congees.map((e) => (
-                  <tr key={e.id}>
-                    <td>{e.employee}</td>
-                    <td>{e.type}</td>
-                    <td>{e.startDate}</td>
-                    <td>{e.endDate}</td>
-                    <td>{e.duree} jours</td>
-                    <td>{e.status}</td>
-                    <td>
-                      
-                      {(e.status === "Approuvé" || e.status === "Rejeté") && (
-                        <button className="btn" onClick={() => openModal(e.id)}>Supprimer</button>
-                      )}
-                      {e.status === "En attente" && (
-                        <>
-                          <button className="btn2" onClick={() => approveLeave(e.id)}>
-                            <MdCheckCircle />
-                          </button>
-                          <button className="btn2" onClick={() => rejectLeave(e.id)}>
-                            <MdCancel />
-                          </button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7">Aucune demande de congé enregistrée.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </>
+      {loading ? (
+        <div className="loader-container">
+          <div className="loader"></div>
+          <p>Chargement des congés...</p>
+        </div>
+      ) : processing ? (
+        <div className="loader-container">
+          <div className="loader"></div>
+          <p>Opération en cours...</p>
+        </div>
       ) : (
-        <form className="leave-form" onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="form-title">Nouvelle Demande de Congé</h2>
+        <>
+          {showTable ? (
+            <>
+              <button className="btn1" onClick={handleNewRequest}>Nouvelle demande</button>
+              <table border={1}>
+                <thead>
+                  <tr>
+                    <th>Employé</th>
+                    <th>Type</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Durée (jours)</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {congees.length > 0 ? (
+                    congees.map((e) => (
+                      <tr key={e.id}>
+                        <td>{e.employee}</td>
+                        <td>{e.type}</td>
+                        <td>{e.startDate}</td>
+                        <td>{e.endDate}</td>
+                        <td>{e.duree} jours</td>
+                        <td>{e.status}</td>
+                        <td>
+                          {(e.status === "Approuvé" || e.status === "Rejeté") && (
+                            <button className="btn" onClick={() => openModal(e.id)}>Supprimer</button>
+                          )}
+                          {e.status === "En attente" && (
+                            <>
+                              <button className="btn2" onClick={() => approveLeave(e.id)}>
+                                <MdCheckCircle />
+                              </button>
+                              <button className="btn2" onClick={() => rejectLeave(e.id)}>
+                                <MdCancel />
+                              </button>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">Aucune demande de congé enregistrée.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </>
+          ) : (
+            <form className="leave-form" onSubmit={handleSubmit(onSubmit)}>
+              <h2 className="form-title">Nouvelle Demande de Congé</h2>
 
-          <input
-            type="text"
-            placeholder="Nom de l'employé"
-            {...register("employee", { required: "Nom de l'employé est requis" })}
-            className="form-input"
-          />
-          {errors.employee && <p>{errors.employee.message}</p>}
+              <input
+                type="text"
+                placeholder="Nom de l'employé"
+                {...register("employee", { required: "Nom de l'employé est requis" })}
+                className="form-input"
+              />
+              {errors.employee && <p>{errors.employee.message}</p>}
 
-          <select {...register("type", { required: "Sélectionner un type de congé" })} className="form-input">
-            <option value="">Sélectionner un type de congé</option>
-            <option value="Maladie">Maladie</option>
-            <option value="Vacances">Vacances</option>
-            <option value="Congé parental">Congé parental</option>
-            <option value="Autre">Autre</option>
-          </select>
-          {errors.type && <p>{errors.type.message}</p>}
+              <select {...register("type", { required: "Sélectionner un type de congé" })} className="form-input">
+                <option value="">Sélectionner un type de congé</option>
+                <option value="Maladie">Maladie</option>
+                <option value="Vacances">Vacances</option>
+                <option value="Congé parental">Congé parental</option>
+                <option value="Autre">Autre</option>
+              </select>
+              {errors.type && <p>{errors.type.message}</p>}
 
-          <input
-            type="date"
-            {...register("startDate", { required: "La date de début est requise" })}
-            className="form-input"
-            min={new Date().toISOString().split("T")[0]}
-          />
-          {errors.startDate && <p>{errors.startDate.message}</p>}
+              <input
+                type="date"
+                {...register("startDate", { required: "La date de début est requise" })}
+                className="form-input"
+                min={new Date().toISOString().split("T")[0]}
+              />
+              {errors.startDate && <p>{errors.startDate.message}</p>}
 
-          <input
-            type="date"
-            {...register("endDate", {
-              required: "La date de fin est requise",
-              validate: (value) => !startDate || value >= startDate || "La date de fin doit être après la date de début"
-            })}
-            className="form-input"
-            min={startDate || new Date().toISOString().split("T")[0]}
-            disabled={!startDate}
-          />
-          {errors.endDate && <p>{errors.endDate.message}</p>}
+              <input
+                type="date"
+                {...register("endDate", {
+                  required: "La date de fin est requise",
+                  validate: (value) => !startDate || value >= startDate || "La date de fin doit être après la date de début"
+                })}
+                className="form-input"
+                min={startDate || new Date().toISOString().split("T")[0]}
+                disabled={!startDate}
+              />
+              {errors.endDate && <p>{errors.endDate.message}</p>}
 
-          <div className="form-actions">
-            <button className="form-button-submit" type="submit">Soumettre</button>
-            <button className="form-button-cancel" type="button" onClick={handleCancelRequest}>Annuler</button>
-          </div>
-        </form>
+              <div className="form-actions">
+                <button className="form-button-submit" type="submit">Soumettre</button>
+                <button className="form-button-cancel" type="button" onClick={handleCancelRequest}>Annuler</button>
+              </div>
+            </form>
+          )}
+        </>
       )}
 
       {isModalOpen && (
