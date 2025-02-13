@@ -51,7 +51,6 @@ function Header({ onLogout }) {
   <Link className="c" to="/rec">Recrutement</Link>
   <Link className="c" to="/pai">Paie</Link>
   <Link className="c" to="/con">Congés</Link>
-  <Link className="c" to="/uti">Utilisateurs</Link>
 
   {/* Bouton de déconnexion dans le menu slide (visible uniquement en responsive) */}
   <button onClick={onLogout} className="btn-logout-mobile">Déconnexion</button>
@@ -65,7 +64,6 @@ function Header({ onLogout }) {
         <Link className="c" to="/rec">Recrutement</Link>
         <Link className="c" to="/pai">Paie</Link>
         <Link className="c" to="/con">Congés</Link>
-        <Link className="c" to="/uti">Utilisateurs</Link>
       </div>
 
       <button onClick={onLogout} className="btn-logout">Déconnexion</button>
