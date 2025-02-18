@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Notification from './Notification/Notification';
 import './Mil.css';
-import axios from "axios";
+import axios from '../axiosConfig';
 import Loading from '../components/Loading';
 
 const Employe = ({ employees, loadingEmployees, addEmployee, removeEmployee, updateEmployee }) => {
@@ -13,7 +13,7 @@ const Employe = ({ employees, loadingEmployees, addEmployee, removeEmployee, upd
   });
 
   // Etat local pour les opérations asynchrones (ex. lors d'un ajout, modification ou suppression)
-  const [processing, setProcessing] = useState(false);
+  const [processing, setProcessing] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -23,6 +23,14 @@ const Employe = ({ employees, loadingEmployees, addEmployee, removeEmployee, upd
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editedEmployee, setEditedEmployee] = useState({ id: '', name: '', position: '', department: '' });
+
+  useEffect(() => {
+    if (loadingEmployees) {
+      setProcessing(true);
+    } else {
+      setProcessing(false);
+    }
+  }, [loadingEmployees]);
 
   const handleAddEmployee = () => {
     if (!newEmployee.name || !newEmployee.position || !newEmployee.department) {
@@ -118,10 +126,8 @@ const Employe = ({ employees, loadingEmployees, addEmployee, removeEmployee, upd
   return (
     <div>
       <h1>Tableau des Employés</h1>
-      {loadingEmployees ? (
-        <Loading message="Chargement des employés..." />
-      ) : processing ? (
-        <Loading message="Opération en cours..." />
+      {processing ? (
+        <Loading message={loadingEmployees ? "Chargement des employés..." : "Opération en cours..."} />
       ) : (
         <>
           <button className="btn1" onClick={() => setIsAddModalOpen(true)}>

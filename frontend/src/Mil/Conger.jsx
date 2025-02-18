@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
+import axios from '../axiosConfig'; // Importer la configuration Axios
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { MdCheckCircle, MdCancel } from "react-icons/md";
 import Notification from "./Notification/Notification";
 import useLocalStorage from "./Uselocalstorage";
 import Loading from '../components/Loading';
 
-function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPendingLeavesCount` passée par le parent
+function Conger({ setPendingLeavesCount, employees }) {  // Add employees prop
   const [congees, setCongees] = useLocalStorage(
     "congees", []
   );
   const [loading, setLoading] = useState(true);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/congees")
@@ -68,10 +70,14 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
         setCongees([...congees, response.data]);
         reset();
         setShowTable(true);
+        setNotificationMessage("Demande de congé ajoutée avec succès !");
+        setNotificationType("success");
         setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
         console.error("Erreur lors de la création du congé", error);
+        setNotificationMessage("Erreur lors de la création du congé");
+        setNotificationType("error");
         setTimeout(() => { setProcessing(false); }, 500);
       });
   };
@@ -97,12 +103,15 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
     axios.delete(`http://localhost:8000/api/congees/${currentLeaveId}`)
       .then(() => {
         setCongees(congees.filter((leave) => leave.id !== currentLeaveId));
-        setDeleteMessage("La demande de congé a été supprimée avec succès !");
+        setNotificationMessage("La demande de congé a été supprimée avec succès !");
+        setNotificationType("success");
         closeModal();
         setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch((error) => {
         console.error("Erreur lors de la suppression du congé", error);
+        setNotificationMessage("Erreur lors de la suppression du congé");
+        setNotificationType("error");
         setTimeout(() => { setProcessing(false); }, 500);
       });
   };
@@ -115,10 +124,14 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
            leave.id === id ? response.data : leave
          );
          setCongees(updatedCongees);
+         setNotificationMessage("Demande de congé approuvée avec succès !");
+         setNotificationType("success");
          setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
          console.error("Erreur lors de l'approbation de la demande", error);
+         setNotificationMessage("Erreur lors de l'approbation de la demande");
+         setNotificationType("error");
          setTimeout(() => { setProcessing(false); }, 500);
       });
   };
@@ -131,18 +144,26 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
            leave.id === id ? response.data : leave
          );
          setCongees(updatedCongees);
+         setNotificationMessage("Demande de congé rejetée avec succès !");
+         setNotificationType("success");
          setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
          console.error("Erreur lors du rejet de la demande", error);
+         setNotificationMessage("Erreur lors du rejet de la demande");
+         setNotificationType("error");
          setTimeout(() => { setProcessing(false); }, 500);
       });
   };
 
+  useEffect(() => {
+    console.log("Employees:", employees); // Debugging log
+  }, [employees]);
+
   return (
     <div>
-      {deleteMessage && (
-        <Notification message={deleteMessage} onClose={() => setDeleteMessage("")} type="error" />
+      {notificationMessage && (
+        <Notification message={notificationMessage} onClose={() => setNotificationMessage("")} type={notificationType} />
       )}
 
       <h1>Gestion des Congés </h1>
@@ -213,12 +234,12 @@ function Conger({ setPendingLeavesCount }) {  // Ajouter la fonction `setPending
             <form className="leave-form" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="form-title">Nouvelle Demande de Congé</h2>
 
-              <input
-                type="text"
-                placeholder="Nom de l'employé"
-                {...register("employee", { required: "Nom de l'employé est requis" })}
-                className="form-input"
-              />
+              <select {...register("employee", { required: "Sélectionner un employé" })} className="form-input">
+                <option value="">Sélectionner un employé</option>
+                {employees && employees.map(emp => (
+                  <option key={emp.id} value={emp.name}>{emp.name}</option>
+                ))}
+              </select>
               {errors.employee && <p>{errors.employee.message}</p>}
 
               <select {...register("type", { required: "Sélectionner un type de congé" })} className="form-input">

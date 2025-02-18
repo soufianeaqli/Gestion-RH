@@ -14,6 +14,8 @@ function Recrutement({ updateCandidaturesCount }) {
     const [errorMessage, setErrorMessage] = useState('');
     // Etat local pour les opérations asynchrones (ajout, édition, suppression)
     const [processing, setProcessing] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("");
 
     // Charger les candidatures depuis l'API au démarrage
     useEffect(() => {
@@ -52,11 +54,14 @@ function Recrutement({ updateCandidaturesCount }) {
                 const updatedCandidats = candidats.filter((cand) => cand.id !== currentId);
                 setCandidats(updatedCandidats);
                 setIsModalOpen(false);
+                setNotificationMessage("Candidature supprimée avec succès !");
+                setNotificationType("success");
                 setTimeout(() => { setProcessing(false); }, 500);
             })
             .catch(error => {
                 console.error("Erreur lors de la suppression de la candidature", error);
-                setErrorMessage("Erreur lors de la suppression de la candidature");
+                setNotificationMessage("Erreur lors de la suppression de la candidature");
+                setNotificationType("error");
                 setTimeout(() => { setProcessing(false); }, 500);
             });
     };
@@ -83,12 +88,14 @@ function Recrutement({ updateCandidaturesCount }) {
                 setCandidats([...candidats, response.data]);
                 setIsAddModalOpen(false);
                 setNewCandidat({ nom: "", poste: "", cv: "" });
-                setErrorMessage('');
+                setNotificationMessage("Candidature ajoutée avec succès !");
+                setNotificationType("success");
                 setTimeout(() => { setProcessing(false); }, 500);
             })
             .catch(error => {
                 console.error("Erreur lors de la création de la candidature", error.response?.data || error);
-                setErrorMessage("Erreur lors de la création de la candidature: " + JSON.stringify(error.response?.data || error));
+                setNotificationMessage("Erreur lors de la création de la candidature");
+                setNotificationType("error");
                 setTimeout(() => { setProcessing(false); }, 500);
             });
     };
@@ -108,12 +115,14 @@ function Recrutement({ updateCandidaturesCount }) {
                 );
                 setCandidats(updatedCandidats);
                 setEditedCandidat({ id: "", nom: "", poste: "", cv: "" });
-                setErrorMessage('');
+                setNotificationMessage("Candidature modifiée avec succès !");
+                setNotificationType("success");
                 setTimeout(() => { setProcessing(false); }, 500);
             })
             .catch(error => {
                 console.error("Erreur lors de la mise à jour de la candidature", error);
-                setErrorMessage("Erreur lors de la mise à jour de la candidature");
+                setNotificationMessage("Erreur lors de la mise à jour de la candidature");
+                setNotificationType("error");
                 setTimeout(() => { setProcessing(false); }, 500);
             });
     };
@@ -131,6 +140,9 @@ function Recrutement({ updateCandidaturesCount }) {
 
     return (
         <div>
+            {notificationMessage && (
+                <Notification message={notificationMessage} onClose={() => setNotificationMessage("")} type={notificationType} />
+            )}
             <h1>Gestion des Candidatures</h1>
             {loading ? (
                 <div className="loader-container">
@@ -179,8 +191,8 @@ function Recrutement({ updateCandidaturesCount }) {
                     <div className="modal-content">
                         <p>Êtes-vous sûr de vouloir supprimer cette candidature ?</p>
                         <div className="modal-actions">
-                            <button className="btn-sup" onClick={handleDelete}>Oui</button>
-                            <button className="btn-cancel" onClick={() => setIsModalOpen(false)}>Non</button>
+                            <button className="btn-ajt" onClick={handleDelete}>Oui</button>
+                            <button className="btn-annuler" onClick={() => setIsModalOpen(false)}>Non</button>
                         </div>
                     </div>
                 </div>

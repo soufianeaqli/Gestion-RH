@@ -34,9 +34,13 @@ class UserController extends Controller
         }
         $user->save();
 
+        // Générer un nouveau jeton pour l'utilisateur
+        $token = $user->createToken('API Token')->plainTextToken;
+
         return response()->json([
             'success' => true,
             'user' => $user,
+            'token' => $token, // Retourner le jeton
         ]);
     }
 } 

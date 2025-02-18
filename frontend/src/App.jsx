@@ -58,8 +58,18 @@ function App() {
   };
 
   const [loadingEmployees, setLoadingEmployees] = useState(true);
+
   useEffect(() => {
+    // Simulate fetching employees data
+    setLoadingEmployees(true);
     setTimeout(() => {
+      // Assume fetchEmployees is a function that fetches employee data
+      // fetchEmployees().then(data => {
+      //   setEmployees(data);
+      //   setLoadingEmployees(false);
+      // });
+
+      // For demonstration, we simulate fetching with a timeout
       setLoadingEmployees(false);
     }, 1000);
   }, []);
@@ -115,7 +125,10 @@ function App() {
         <Route
           path="/con"
           element={isLoggedIn ? (
-            <Conger setPendingLeavesCount={setPendingLeavesCount} />
+            <Conger 
+              employees={employees} 
+              setPendingLeavesCount={setPendingLeavesCount} 
+            />
           ) : (
             <Navigate to="/login" />
           )}

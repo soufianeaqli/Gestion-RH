@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import './Mil.css';
 import axios from "axios";
 import Loading from '../components/Loading';
+import Notification from './Notification/Notification';
 
 function Paie({ employees, loadingEmployees, updateEmployee }) {
   const [pai, setPai] = useState([]);
   const [processing, setProcessing] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
 
   // Synchroniser `pai` avec les employés
   useEffect(() => {
@@ -46,19 +49,27 @@ function Paie({ employees, loadingEmployees, updateEmployee }) {
 
   // 🟢 Sauvegarder les changements et mettre à jour globalement
   const handleSave = () => {
+    setProcessing(true);
     axios.put(`http://localhost:8000/api/employees/${editedSalaire.id}`, editedSalaire)
       .then(response => {
-         updateEmployee(response.data);
-         setTimeout(() => { setProcessing(false); }, 500);
+        updateEmployee(response.data);
+        setNotificationMessage("Salaire mis à jour avec succès !");
+        setNotificationType("success");
+        setTimeout(() => { setProcessing(false); }, 500);
       })
       .catch(error => {
-         console.error("Erreur lors de la mise à jour du salaire", error.response?.data || error);
-         setTimeout(() => { setProcessing(false); }, 500);
+        console.error("Erreur lors de la mise à jour du salaire", error.response?.data || error);
+        setNotificationMessage("Erreur lors de la mise à jour du salaire");
+        setNotificationType("error");
+        setTimeout(() => { setProcessing(false); }, 500);
       });
   };
 
   return (
     <div>
+      {notificationMessage && (
+        <Notification message={notificationMessage} onClose={() => setNotificationMessage("")} type={notificationType} />
+      )}
       <h1>Tableau des Salaires</h1>
       {loadingEmployees || processing ? (
         <Loading message={processing ? "Sauvegarde en cours..." : "Chargement des salaires..."} />
@@ -115,7 +126,6 @@ function Paie({ employees, loadingEmployees, updateEmployee }) {
                 onClick={() => {
                   // Masquer immédiatement le formulaire de modification
                   setIsEditSalaire(false);
-                  setProcessing(true);
                   handleSave();
                 }}
               >

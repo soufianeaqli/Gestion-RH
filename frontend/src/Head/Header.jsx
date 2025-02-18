@@ -48,7 +48,7 @@ function Header({ onLogout }) {
   </div>
   <Link className="c" to="/">Tableau de Bord</Link>
   <Link className="c" to="/empl">Employés</Link>
-  <Link className="c" to="/rec">Recrutement</Link>
+  <Link className="c" to="/rec">Candidature</Link>
   <Link className="c" to="/pai">Paie</Link>
   <Link className="c" to="/con">Congés</Link>
 
@@ -61,80 +61,10 @@ function Header({ onLogout }) {
       <div className="a">
         <Link className="c" to="/">Tableau de Bord</Link>
         <Link className="c" to="/empl">Employés</Link>
-        <Link className="c" to="/rec">Recrutement</Link>
-        <Link className="c" to="/pai">Paie</Link>
-        <Link className="c" to="/con">Congés</Link>
-import React, { useState, useEffect, useRef } from 'react';
-import './Header.css';
-import Logo from './Capture_d_écran_2025-02-08_145637-removebg-preview.png';
-import { Link } from 'react-router-dom';
-
-function Header({ onLogout }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
-
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleMouseDown = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleMouseDown);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-    };
-  }, [menuRef]);
-
-  return (
-    <div className="D1">
-      <div className="me">
-        <Link to="/" className="T">
-          <img src={Logo} alt="Logo" className="logo" />
-        </Link>
-      </div>
-
-      <div className="menu-icon" onClick={toggleMenu}>
-        ☰
-      </div>
-
-      <div ref={menuRef} className={`navbar-slide ${isOpen ? 'open' : ''}`}>
-        <div className="me">
-          <Link to="/" className="T">
-            <img src={Logo} alt="Logo" className="logo" />
-          </Link>
-        </div>
-        <Link className="c" to="/">Tableau de Bord</Link>
-        <Link className="c" to="/empl">Employés</Link>
-        <Link className="c" to="/rec">Recrutement</Link>
-        <Link className="c" to="/pai">Paie</Link>
-        <Link className="c" to="/con">Congés</Link>
-        <button onClick={onLogout} className="btn-logout-mobile">Déconnexion</button>
-      </div>
-
-      <div className="a">
-        <Link className="c" to="/">Tableau de Bord</Link>
-        <Link className="c" to="/empl">Employés</Link>
-        <Link className="c" to="/rec">Recrutement</Link>
+        <Link className="c" to="/rec">Candidature</Link>
         <Link className="c" to="/pai">Paie</Link>
         <Link className="c" to="/con">Congés</Link>
       </div>
-
-      <button onClick={onLogout} className="btn-logout">Déconnexion</button>
-    </div>
-  );
-}
-
-export default Header;      </div>
 
       <button onClick={onLogout} className="btn-logout">Déconnexion</button>
     </div>

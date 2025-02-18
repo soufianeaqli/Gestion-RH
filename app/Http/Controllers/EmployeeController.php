@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     // 🔹 Ajouter un employé
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'department' => 'required|string|max:255',
@@ -49,12 +49,12 @@ class EmployeeController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        $request->validate([
-            'name' => 'string|max:255',
-            'position' => 'string|max:255',
-            'department' => 'string|max:255',
-            'salaire' => 'numeric|min:0',
-            'prime' => 'numeric|min:0',
+        $validatedData = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'position' => 'sometimes|string|max:255',
+            'department' => 'sometimes|string|max:255',
+            'salaire' => 'sometimes|numeric|min:0',
+            'prime' => 'sometimes|numeric|min:0',
         ]);
 
         $salaire = $request->salaire ?? $employee->salaire;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from '../axiosConfig'; // Importer la configuration Axios
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -11,20 +12,16 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ name, email, password }),
+      const response = await axios.post('http://localhost:8000/api/register', {
+        name,
+        email,
+        password
       });
-      const data = await response.json();
 
-      if (response.ok && data.success) {
-        navigate('/login'); // Rediriger vers la page de connexion après inscription
+      if (response.data.success) {
+        navigate('/login');
       } else {
-        setErrorMessage(data.message || 'Inscription échouée.');
+        setErrorMessage(response.data.message || 'Inscription échouée.');
       }
     } catch (error) {
       setErrorMessage('Une erreur s’est produite. Veuillez réessayer.');

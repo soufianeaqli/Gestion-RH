@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from '../axiosConfig'; // Importer la configuration Axios
 import './Login.css'
+import Notification from './Notification/Notification'; // Assuming you have a Notification component
 
 const LoginPage = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
@@ -16,29 +18,23 @@ const LoginPage = ({ setIsAuthenticated }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post('http://localhost:8000/api/login', {
+        email,
+        password
       });
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
+      if (response.data.success) {
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("authToken", response.data.token); // Stocker le jeton
         setIsAuthenticated(true);
         navigate('/');
       } else {
-        setErrorMessage(data.message || 'Login failed');
-        setTimeout(() => setErrorMessage(''), 3000);
+        setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
       }
     } catch (error) {
-      setErrorMessage('An error occurred. Please try again.');
-      setTimeout(() => setErrorMessage(''), 3000);
+      console.error("Erreur lors de la connexion", error);
+      setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
     }
   };
 
@@ -97,26 +93,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
         </div>
       </div>
       {errorMessage && (
-        <div
-          className="error-notification"
-          style={{
-            position: 'fixed',
-            top: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: '#f8d7da',
-            color: '#721c24',
-            padding: '15px 30px',
-            borderRadius: '5px',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-            zIndex: 9999,
-            fontSize: '16px',
-            opacity: 1,
-            transition: 'opacity 0.5s ease-in-out',
-          }}
-        >
-          {errorMessage}
-        </div>
+        <Notification message={errorMessage} onClose={() => setErrorMessage('')} type="error" />
       )}
     </div>
   );
